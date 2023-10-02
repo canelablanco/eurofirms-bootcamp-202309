@@ -63,6 +63,7 @@ changePasswordForm.onsubmit = function (event) {
     }
 }
 
+// recoge los datos, los pinta en consola y nos lleva a home
 var loginForm = loginMain.querySelector('#login-form')
 loginForm.onsubmit = function (event) {
     event.preventDefault()
@@ -79,6 +80,7 @@ loginForm.onsubmit = function (event) {
     loginForm.reset()
 }
 
+// enlace para poder navegar hacia registro
 var navigateToRegister = loginMain.querySelector('#register-navigate')
 navigateToRegister.onclick = function(event){
     event.preventDefault()
@@ -87,6 +89,7 @@ navigateToRegister.onclick = function(event){
     registerMain.classList.remove('off')
 }
 
+// enlace para poder navegar hacia login
 var navigateToLogin = registerMain.querySelector('#login-navigate')
 navigateToLogin.onclick = function(event){
     event.preventDefault()
@@ -95,6 +98,7 @@ navigateToLogin.onclick = function(event){
     loginMain.classList.remove('off')
 }
 
+// recoger el nombre del email y la contraseña poniendolos en la pantalla y nos lleva a login
 var registerForm = registerMain.querySelector('#register-form')
 registerForm.onsubmit = function (event) {
     event.preventDefault()
