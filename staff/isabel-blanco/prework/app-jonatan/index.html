@@ -5,25 +5,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    <link rel="stylesheet" href="home-style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <header class="home-header">
-        <span>imagen</span>
+    <header class="home-header off" id="home-header">
         <nav title="nav links" class="home-header-nav">
             <h1><a href="" id="home-navigate">Home</a></h1>
             <a href="" id="settings-navigate">Settings</a>
         </nav>
         <form class="search-form">
-            <input type="search" role="search">
+            <input class="search-input" type="search" role="search">
             <button>search</button>
         </form>
 
-        <button class="logout-button">Logout</button>
+        <button id="logout-button" class="logout-button">Logout</button>
     </header>
-    <br>
-    <main id="home-main" title="main content" class="home-main">
+
+    <main id="home-main" title="main content" class="home-main off">
         <h2>Recents Posts</h2>
 
         <section class="section-posts">
@@ -80,15 +79,47 @@
             <button type="submit">Change password</button>
         </form>
     </main>
-    <footer>
-        <ul>
-            <li><a href="about us">About us</a></li>
-            <li><a href="contact">Contact</a></li>
-            <li><a href="services">Services</a></li>
-        </ul>
+
+    <!--LOGIN PAGE-->
+
+    <main class="login-main" id="login-main">
+        <h2>Iniciar sesión</h2>
+        <form id="login-form">
+            <label for="email">Correo Electrónico:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="contrasena">Contraseña:</label>
+            <input type="password" id="password" name="password" required>
+            <button type="submit">Iniciar sesión</button>
+        </form>
+        <p> ¿No tienes cuenta? <a id="register-navigate" href="">Registrate!</a></p>
+    </main>
+
+    <!--REGISTER PAGE-->
+
+    <main class="register-main off" id="register-main">
+        <h1>Registro de Usuario</h1>
+        <form id="register-form">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+
+            <label for="email">Correo Electrónico:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="contrasena">Contraseña:</label>
+            <input type="password" id="contrasena" name="contrasena" required>
+
+            <button type="submit">Registrarse</button>
+        </form> 
+        <p>¿Ya tienes cuenta?<a id="login-navigate" href="">Logeate</a></p>
+    </main>
+    <footer class="main-footer">
+        <a href="about us">About us</a>
+        <a href="contact">Contact</a>
+        <a href="services">Services</a>
     </footer>
 
     <script src="./main.js"></script>
+
 </body>
 
 </html>
