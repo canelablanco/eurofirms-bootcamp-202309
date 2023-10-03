@@ -1,5 +1,5 @@
 # Jonatan Barral Otero
 
-## github
+## GitHub
 
 [link](https://github.com/jonatanbarral)
