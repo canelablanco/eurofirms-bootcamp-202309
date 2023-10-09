@@ -1,45 +1,73 @@
-var loginView = document.getElementById('login-view')
-var homeView = document.getElementById('home-view')
+// register view
+
 var registerView = document.getElementById('register-view')
 
-var registerForm = document.getElementById('register-form')
+registerView.style.display = 'none'
+
+// navigation to login
+
+var loginLink = registerView.querySelector('#login-link')
+
+loginLink.onclick = function (event) {
+    event.preventDefault()
+
+    registerView.style.display = 'none'
+    loginView.style.display = ''
+}
+
+// submit for register
+
+var registerForm = registerView.querySelector('#register-form')
+
 registerForm.onsubmit = function (event) {
     event.preventDefault()
 
-    var name = event.target['name-input'].value
-    var email = event.target['email-input'].value
-    var password = event.target['password-input'].value
+    var nameInput = registerForm.querySelector('#name-input')
+    var emailInput = registerForm.querySelector('#email-input')
+    var passwordInput = registerForm.querySelector('#password-input')
+
+    var name = nameInput.value
+    var email = emailInput.value
+    var password = passwordInput.value
 
     console.log(name, email, password)
 }
 
+// login view
+
+var loginView = document.getElementById('login-view')
+
+loginView.style.display = ''
+
+// navigation to register
+
+var registerLink = loginView.querySelector('#register-link')
+
+registerLink.onclick = function (event) {
+    event.preventDefault()
+
+    loginView.style.display = 'none'
+    registerView.style.display = ''
+}
+
+// submit login
+
 var loginForm = loginView.querySelector('#login-form')
+
 loginForm.onsubmit = function (event) {
     event.preventDefault()
 
-    var emailLogin = event.target['email-input-login'].value
-    var passwordLogin = event.target['password-input-login'].value
+    var emailInput = loginForm.querySelector('#email-input')
+    var passwordInput = loginForm.querySelector('#password-input')
 
-    console.log(emailLogin, passwordLogin)
+    var email = emailInput.value
+    var password = passwordInput.value
 
-    loginView.classList.add('off')
-    homeView.classList.remove('off')
-
+    console.log(email, password)
 }
 
-var navigateToRegister = loginView.querySelector('#register-navigate')
-navigateToRegister.onclick = function (event) {
-    event.preventDefault()
+// home view
 
-    loginView.classList.add('off')
-    registerView.classList.remove('off')
+var homeView = document.getElementById('home-view')
 
-}
-
-var navigateToLogin = registerView.querySelector('#login-navigate')
-navigateToLogin.onclick = function (event) {
-    event.preventDefault()
-
-    registerView.classList.add('off')
-    loginView.classList.remove('off')
-}
+homeView.style.display = 'none'
