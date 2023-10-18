@@ -1,7 +1,7 @@
-function find(array, calback) {
+function find(array, callback) {
     for (var i = 0; i < array.length; i++) {
         var element = array[i]
-        var result = calback(element)
+        var result = callback(element)
 
 
         if (result)
