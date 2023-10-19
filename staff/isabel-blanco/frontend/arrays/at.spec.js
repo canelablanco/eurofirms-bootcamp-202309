@@ -44,3 +44,21 @@ var element = at(chars, -1)
 
 console.log(element)
 // 'c'
+
+console.log('CASE return element in index -3 from array [a, b, c]')
+
+var chars = ['a', 'b', 'c']
+
+var element = at(chars, -3)
+
+console.log(element)
+// 'a'
+
+console.log('CASE return element in index -30 from array [a, b, c]')
+
+var chars = ['a', 'b', 'c']
+
+var element = at(chars, -30)
+
+console.log(element)
+// indefined
