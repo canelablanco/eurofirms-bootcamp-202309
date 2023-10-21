@@ -39,6 +39,25 @@ registerForm.onsubmit = function (event) {
     var email = emailInput.value;
     var password = passwordInput.value;
 
+    var foundUser = null
+
+    for (var i = 0; i < users.length; i++) {
+        var user = users[i]
+
+        if (user.email === email) {
+            foundUser = user
+
+            break
+        }
+    }
+
+    if (found !== null) {
+        alert('User alredy exists')
+
+        return
+    }
+
+
     // Crear un objeto de usuario con los datos ingresados
     var user = {};
     user.name = name;

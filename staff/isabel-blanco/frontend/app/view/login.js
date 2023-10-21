@@ -66,7 +66,34 @@ loginForm.onsubmit = function (event) {
     emailInput.value = '';
     passwordInput.value = '';
 
-    // Ocultar la vista de inicio de sesión y mostrar la vista de inicio
+    loggedInEmail = foundUser.email
+
     loginView.style.display = 'none';
-    homeView.style.display = '';
+
+    var userNameSpan = homeView.querySelector('#user-name-span')
+    userNameSpan.innerText = foundUser.name
+
+    for (var i = posts.length - 1; i >= 0; i--) {
+        var post = posts[i]
+
+        var article = document.createElement('article')
+
+        var span = document.createElement('span')
+        span.innerText = post.author
+
+        var image = document.createElement('img')
+        image.setAttribute('class', 'post-image')
+        image.src = post.image
+
+        var paragraph = document.createElement('p')
+        paragraph.innertText = post.text
+
+        var alt = document.createElement('alt')
+        alt.innertText = post.text
+
+        article.appendChild(span)
+        article.appendChild(image)
+        article.appendChild(paragraph)
+        article.appendChild(alt)
+    }
 };
