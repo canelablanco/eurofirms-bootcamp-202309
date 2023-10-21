@@ -9,32 +9,9 @@
 </head>
 
 <body>
-    <div id="home-view" class="view">
-        <header class="header">
-            <h1>Home</h1>
-            <span id="user-name-span">Hello World</span>
-            <button id="post-button">+</button>
-            <butto id="logout-button">Logout</button>
-        </header>
 
-        <div id="post-panel">
-            <h2>Create post</h2>
-
-            <form id="post-panel" class="form">
-                <label for="image-imput">Image</label>
-                <input type="url" id="image-input">
-
-                <label for="text-input">Text</label>
-                <input type="text" id="text-input">
-
-                <button type="submit">Post</button>
-                <button id="cancel-post-button">Cancel</button>
-            </form>
-
-            <div id="posts-id"></div>
-        </div>
     </div>
-    <div id="register-view" class="view view-plum">
+    <div id="register-view" class="view">
 
         <h1>Register</h1>
         <form id="register-form" class="form">
@@ -47,13 +24,13 @@
             <label for="password-input">Password</label>
             <input type="password" id="password-input">
 
-            <button type="submit">Register Now</button>
+            <button type="submit">Register</button>
 
         </form>
         <a href="" id="login-link">Login</a>
     </div>
 
-    <div id="login-view" class="view view-skyblue">
+    <div id="login-view" class="view">
         <h1>Login</h1>
 
         <form id="login-form" class="form">
@@ -68,10 +45,37 @@
         <a href="" id="register-link">Register</a>
     </div>
 
+    <div id="home-view" class="view">
+        <header class="header">
+            <h1>Home</h1>
+            <span id="user-name-span">Hello World</span>
+            <button id="post-button">+</button>
+            <butto id="logout-button">Logout</button>
+        </header>
+
+        <div id="post-panel" class="panel-lightgreen">
+            <h2>Create post</h2>
+
+            <form id="post-form" class="form">
+                <label for="image-imput">Image</label>
+                <input type="url" id="image-input">
+
+                <label for="text-input">Text</label>
+                <input type="text" id="text-input">
+
+                <button type="submit">Post</button>
+                <button id="cancel-post-button">Cancel</button>
+            </form>
+        </div>
+
+        <div id="posts-list"></div>
+
+    </div>
+
     <script src="data.js"></script>
 
-    <script src="views/login.js"></script>
     <script src="views/register.js"></script>
+    <script src="views/login.js"></script>
     <script src="views/home.js"></script>
 
     <script src="main.js"></script>
