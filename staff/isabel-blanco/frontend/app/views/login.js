@@ -62,7 +62,7 @@ loginForm.onsubmit = function (event) {
     var userNameSpan = homeView.querySelector('#user-name-span')
     userNameSpan.innerText = foundUser.name
 
-    var postsList = homeView.querySelector('#post-list')
+    var postsList = homeView.querySelector('#posts-list')
 
     for (var i = posts.length - 1; i >= 0; i--) {
         var post = posts[i]
