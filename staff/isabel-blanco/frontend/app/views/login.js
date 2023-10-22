@@ -51,44 +51,20 @@ loginForm.onsubmit = function (event) {
         return;
     }
 
-    // Limpiar los campos de entrada
-    emailInput.value = '';
-    passwordInput.value = '';
+    loginForm.reset()
 
     loggedInEmail = foundUser.email
 
-    loginView.style.display = 'none';
+    loginView.style.display = 'none'
+
+    // render user name in header
 
     var userNameSpan = homeView.querySelector('#user-name-span')
-    userNameSpan.innerText = foundUser.name
+    userNameSpan.innerText = foundUser.userNameSpan
 
-    var postsList = homeView.querySelector('#posts-list')
+    // render posts in body
 
-    for (var i = posts.length - 1; i >= 0; i--) {
-        var post = posts[i]
-
-        var article = document.createElement('article')
-
-        var span = document.createElement('span')
-        span.innerText = post.author
-
-        var image = document.createElement('img')
-        image.setAttribute('class', 'post-image')
-        image.src = post.image
-
-        var paragraph = document.createElement('p')
-        paragraph.innertText = post.text
-
-        var alt = document.createElement('alt')
-        alt.innertText = post.text
-
-        article.appendChild(span)
-        article.appendChild(image)
-        article.appendChild(paragraph)
-        article.appendChild(alt)
-
-        postsList.appendChild(article)
-    }
+    renderPosts()
 
     homeView.style.display = ''
 }

@@ -13,20 +13,17 @@ var posts = []
 posts[0] = {
     autor: 'elena@troya.com',
     image: 'https://eenusa.smugmug.com/Europe/Turkey-2008/Ruins-Memorials-Turkey-2008/i-5ZjLVVW/1/L/tky0508-119c-4535-L.jpg',
-    text: 'De paseo por el pueblo',
-    alt: 'caballo de troya'
+    text: 'De paseo por el pueblo'
 }
 
 posts[1] = {
     autor: 'ash@kechum.com',
     image: 'https://nintenduo.com/wp-content/uploads/2023/08/Ash-Ketchum-Pikachu-Pokemon-00.webp',
-    text: 'De tascas con mi amigo',
-    alt: 'dos amigos de fiesta'
+    text: 'De tascas con mi amigo'
 }
 
 posts[2] = {
     autor: 'marge@simpson.com',
     image: 'https://www.cartv.es/thumbs/960x540c/2021-07/marge-simpson-sixth-season-mistake.jpg',
-    text: 'Hoy es un mal día para poner la lavadora',
-    alt: 'marge con ansiedad'
+    text: 'Hoy es un mal día para poner la lavadora'
 }
