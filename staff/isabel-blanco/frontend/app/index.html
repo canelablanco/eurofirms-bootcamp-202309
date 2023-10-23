@@ -49,14 +49,14 @@
         <header class="header">
             <h1>Home</h1>
             <span id="user-name-span">Hello World</span>
-            <button id="post-button">+</button>
+            <button id="new-post-button">+</button>
             <butto id="logout-button">Logout</button>
         </header>
 
-        <div id="post-panel" class="panel-lightgreen">
+        <div id="new-post-panel" class="panel-lightgreen">
             <h2>Create post</h2>
 
-            <form id="post-form" class="form">
+            <form id="new-post-form" class="form">
                 <label class="label" for="image-imput">Image</label>
                 <input class="input" type="url" id="image-input">
 
@@ -73,6 +73,10 @@
     </div>
 
     <script src="data.js"></script>
+
+    <script src="utils/find.js"></script>
+
+    <script src="logic/authenticaUser.js"></script>
 
     <script src="views/register.js"></script>
     <script src="views/login.js"></script>

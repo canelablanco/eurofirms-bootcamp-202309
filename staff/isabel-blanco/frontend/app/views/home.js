@@ -16,20 +16,20 @@ logoutButton.onclick = function () {
 }
 
 // post panel
-var postPanel = homeView.querySelector('#post-panel')
+var newPostPanel = homeView.querySelector('#new-post-panel')
 
-postPanel.style.display = 'none'
+newPostPanel.style.display = 'none'
 
 // post form
 
-var postForm = postPanel.querySelector('#post-form')
+var newPostForm = newPostPanel.querySelector('#new-post-form')
 
 //post button
 
-var postButton = homeView.querySelector('#post-button')
+var newPostButton = homeView.querySelector('#new-post-button')
 
-postButton.onclick = function () {
-    postPanel.style.display = ''
+newPostButton.onclick = function () {
+    newPostPanel.style.display = ''
 }
 
 //cancel post button
@@ -46,7 +46,7 @@ cancelNewPostButton.onclick = function (event) {
 
 // submit post form
 
-postForm.onsubmit = function (event) {
+newPostForm.onsubmit = function (event) {
     event.preventDefault()
 
     var imageInput = newPostForm.querySelector('#image-input')
@@ -67,15 +67,15 @@ postForm.onsubmit = function (event) {
 
     newPostPanel.style.display = 'none'
 
-    renderPost()
+    renderPosts()
 }
 
-function renderPost() {
+function renderPosts() {
     var postsList = homeView.querySelector('#posts-list')
 
     postsList.innerHTML = ''
 
-    for (var i = post.length - 1; i >= 0; i--) {
+    for (var i = posts.length - 1; i >= 0; i--) {
         var post = posts[i]
 
         var article = document.createElement('article')
@@ -84,7 +84,7 @@ function renderPost() {
         span.innerText = post.author
 
         var image = document.createElement('img')
-        image.setAttributte('class', 'post-image')
+        image.setAttribute('class', 'post-image')
         image.src = post.image
 
         var paragraph = document.createElement('p')
