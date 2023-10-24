@@ -1,10 +1,10 @@
 // home view
 
-var homeView = document.getElementById('home-view');
+homeView = document.getElementById('home-view');
 
 homeView.style.display = 'none'
 
-var logoutButton = homeView.querySelector('#logout-button')
+logoutButton = homeView.querySelector('#logout-button')
 
 logoutButton.onclick = function () {
     homeView.style.display = 'none'
@@ -16,17 +16,17 @@ logoutButton.onclick = function () {
 }
 
 // post panel
-var newPostPanel = homeView.querySelector('#new-post-panel')
+newPostPanel = homeView.querySelector('#new-post-panel')
 
 newPostPanel.style.display = 'none'
 
 // post form
 
-var newPostForm = newPostPanel.querySelector('#new-post-form')
+newPostForm = newPostPanel.querySelector('#new-post-form')
 
 //post button
 
-var newPostButton = homeView.querySelector('#new-post-button')
+newPostButton = homeView.querySelector('#new-post-button')
 
 newPostButton.onclick = function () {
     newPostPanel.style.display = ''
@@ -34,7 +34,7 @@ newPostButton.onclick = function () {
 
 //cancel post button
 
-var cancelNewPostButton = newPostForm.querySelector('#cancel-post-button')
+cancelNewPostButton = newPostForm.querySelector('#cancel-post-button')
 
 cancelNewPostButton.onclick = function (event) {
     event.preventDefault()
