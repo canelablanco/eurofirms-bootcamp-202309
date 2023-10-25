@@ -30,39 +30,17 @@ registerForm.onsubmit = function (event) {
     var email = emailInput.value
     var password = passwordInput.value
 
-    //search user by email
+    // create try for register user
 
-    var foundUser = null
+    try {
+        registerUser(name, email, password)
+        nameInput.value = ''
+        emailInput.value = ''
+        passwordInput.value = ''
 
-    for (var i = 0; i < users.length; i++) {
-        var user = users[i]
-
-        if (user.email === email) {
-            foundUser = user
-
-            break
-        }
+        registerView.style.display = 'none'
+        loginView.style.display = ''
+    } catch (error) {
+        alert(error.message)
     }
-
-    //if user exists (it was found) the error
-
-    if (found !== null) {
-        alert('User alredy exists')
-
-        return
-    }
-
-    var user = {}
-    user.name = name
-    user.email = email
-    user.password = password
-
-    users.push(user)
-
-    nameInput.value = ''
-    emailInput.value = ''
-    passwordInput.value = ''
-
-    registerView.style.display = 'none'
-    loginView.style.display = ''
 };
