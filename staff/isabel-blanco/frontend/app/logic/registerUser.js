@@ -2,10 +2,10 @@ function registerUser(name, email, password) {
 
     //search user by email
 
-    var foundUser = null
+    const foundUser = null
 
-    for (var i = 0; i < users.length; i++) {
-        var user = users[i]
+    for (let i = 0; i < users.length; i++) {
+        const user = users[i]
 
         if (user.email === email) {
             foundUser = user
@@ -16,13 +16,11 @@ function registerUser(name, email, password) {
 
     //if user exists (it was found) the error
 
-    if (found !== null) {
-        alert('User alredy exists')
-
-        return
+    if (foundUser !== null) {
+        throw new Error('User alredy exists')
     }
 
-    var user = {}
+    let user = {}
     user.name = name
     user.email = email
     user.password = password

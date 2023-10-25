@@ -34,13 +34,12 @@ registerForm.onsubmit = function (event) {
 
     try {
         registerUser(name, email, password)
-        nameInput.value = ''
-        emailInput.value = ''
-        passwordInput.value = ''
+
+        registerForm.reset()
 
         registerView.style.display = 'none'
         loginView.style.display = ''
     } catch (error) {
         alert(error.message)
     }
-};
+}

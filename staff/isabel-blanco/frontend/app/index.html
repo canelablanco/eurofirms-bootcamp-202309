@@ -16,13 +16,13 @@
         <h1>Register</h1>
         <form id="register-form" class="form">
             <label class="label" for="name-input">Name</label>
-            <input class="input" type="text" id="name-input">
+            <input class="input" type="text" id="name-input" title="Name">
 
             <label class="label" for="email-input">E-mail</label>
-            <input class="input" type="email" id="email-input">
+            <input class="input" type="email" id="email-input" title="E-mail">
 
             <label class="label" for="password-input">Password</label>
-            <input class="input" type="password" id="password-input">
+            <input class="input" type="password" id="password-input" title="Password">
 
             <button class="button" type="submit">Register</button>
 
@@ -40,7 +40,7 @@
             <label class="label" for="password-input">Password</label>
             <input class="input" type="password" id="password-input" title="Password">
 
-            <button class="button" type="submit" id="login-button">Login</button>
+            <button class="button" type="submit">Login</button>
         </form>
         <a href="" id="register-link">Register</a>
     </div>
@@ -48,8 +48,8 @@
     <div id="home-view" class="view">
         <header class="header">
             <h1>Home</h1>
-            <span id="user-name-span">Hello World</span>
-            <button id="new-post-button">+</button>
+            <span id="user-name-span" arial-label="User name">Hello World</span>
+            <button id="new-post-button" arial-label="New post">+</button>
             <butto id="logout-button">Logout</button>
         </header>
 
@@ -59,6 +59,9 @@
             <form id="new-post-form" class="form">
                 <label class="label" for="image-imput">Image</label>
                 <input class="input" type="url" id="image-input">
+
+                <label for="image-description-input">Image Description</label>
+                <input type="text" id="image-description-input">
 
                 <label class="label" for="text-input">Text</label>
                 <input class="input" type="text" id="text-input">
@@ -77,7 +80,7 @@
     <script src="data.js"></script>
 
     <script src="logic/authenticaUser.js"></script>
-    <script src="logic/retrieverUse.js"></script>
+    <script src="logic/retrieverUser.js"></script>
     <script src="logic/registerUser.js"></script>
 
     <script src="main.js"></script>

@@ -1,4 +1,4 @@
-function retrieverUser(email, password) {
+function retrieverUser(email) {
     var foundUser = find(users, function (user) {
         return user.email === email
     })

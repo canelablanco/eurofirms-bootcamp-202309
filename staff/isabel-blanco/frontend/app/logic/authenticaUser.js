@@ -1,4 +1,5 @@
 function authenticateUser(email, password) {
+
     var foundUser = find(users, function (user) {
         return user.email === email
     })
