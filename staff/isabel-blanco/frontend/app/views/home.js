@@ -55,45 +55,51 @@ newPostForm.onsubmit = function (event) {
     var image = imageInput.value
     var text = textInput.value
 
-    var post = {}
+    try {
 
-    post.author = loggedInEmail
-    post.image = image
-    post.text = text
+        createNewPost(loggedInEmail, image, imageDescription, text)
 
-    posts.push(post)
 
-    newPostForm.reset()
+        newPostForm.reset()
 
-    newPostPanel.style.display = 'none'
+        newPostPanel.style.display = 'none'
 
-    renderPosts()
+        renderPosts()
+    } catch (error) {
+        alert(error.message)
+    }
 }
 
 function renderPosts() {
-    var postsList = homeView.querySelector('#posts-list')
+    try {
+        var posts = retirevePosts(loggedInEmail)
 
-    postsList.innerHTML = ''
+        var postsList = homeView.querySelector('#posts-list')
 
-    for (var i = posts.length - 1; i >= 0; i--) {
-        var post = posts[i]
+        postsList.innerHTML = ''
 
-        var article = document.createElement('article')
+        for (var i = posts.length - 1; i >= 0; i--) {
+            var post = posts[i]
 
-        var span = document.createElement('span')
-        span.innerText = post.author
+            var article = document.createElement('article')
 
-        var image = document.createElement('img')
-        image.setAttribute('class', 'post-image')
-        image.src = post.image
+            var span = document.createElement('span')
+            span.innerText = post.author
 
-        var paragraph = document.createElement('p')
-        paragraph.innerText = post.text
+            var image = document.createElement('img')
+            image.setAttribute('class', 'post-image')
+            image.src = post.image
 
-        article.appendChild(span)
-        article.appendChild(image)
-        article.appendChild(paragraph)
+            var paragraph = document.createElement('p')
+            paragraph.innerText = post.text
 
-        postsList.appendChild(article)
+            article.appendChild(span)
+            article.appendChild(image)
+            article.appendChild(paragraph)
+
+            postsList.appendChild(article)
+        }
+    } catch (error) {
+        alert(error.message)
     }
 }
