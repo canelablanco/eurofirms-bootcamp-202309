@@ -50,9 +50,11 @@ newPostForm.onsubmit = function (event) {
     event.preventDefault()
 
     var imageInput = newPostForm.querySelector('#image-input')
+    var imageDescriptionInput = newPostForm.querySelector('#image-desciption-input')
     var textInput = newPostForm.querySelector('#text-input')
 
     var image = imageInput.value
+    var imageDescriptionInput = imageDescriptionInput.value
     var text = textInput.value
 
     try {
@@ -82,13 +84,17 @@ function renderPosts() {
             var post = posts[i]
 
             var article = document.createElement('article')
+            article.setAttribute('aria-label', 'post')
 
-            var span = document.createElement('span')
+            var h3 = document.createElement('h3')
             span.innerText = post.author
+            h3.innerText = post.author
+            h3.setAttribute('arial-label', 'author')
 
             var image = document.createElement('img')
             image.setAttribute('class', 'post-image')
             image.src = post.image
+            image.alt = post.imageDescription
 
             var paragraph = document.createElement('p')
             paragraph.innerText = post.text

@@ -1,4 +1,7 @@
 function registerUser(name, email, password) {
+    validateText(name, 'name')
+    validateEmail(email)
+    validatePassword(password)
 
     //search user by email
 
