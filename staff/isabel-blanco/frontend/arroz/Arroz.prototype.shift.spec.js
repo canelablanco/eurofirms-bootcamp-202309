@@ -1,11 +1,21 @@
-Arroz.prototype.shift = function () {
-    const deletedElement2 = this[0]
+TEST('Arroz prototype shift')
 
-    for (let i = 0; i < this.length; i++) {
-        this[i] = this[i + 1]
-    }
+CASE('Delete the first element of the chars and return it')
 
-    this.length--
+const charsSihft = new Arroz
 
-    return deletedElement2
-}
+charsSihft[0] = 'a'
+charsSihft[1] = 'b'
+charsSihft[2] = 'c'
+charsSihft[3] = 'd'
+charsSihft[4] = 'e'
+
+charsSihft.length = 5
+
+const deletedElement2 = charsSihft.shift()
+
+console.log(deletedElement2)
+// a
+
+console.log(charsSihft)
+// {0:b, 1:c, 2:d, 3:e}

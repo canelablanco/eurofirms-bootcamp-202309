@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>App</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
 </head>
 
 <body>
@@ -16,13 +17,13 @@
         <h1>Register</h1>
         <form id="register-form" class="form">
             <label class="label" for="name-input">Name</label>
-            <input class="input" type="text" id="name-input" title="Name">
+            <input class="input" type="text" id="name-input" title="Name" required>
 
             <label class="label" for="email-input">E-mail</label>
-            <input class="input" type="email" id="email-input" title="E-mail">
+            <input class="input" type="email" id="email-input" title="E-mail" required>
 
             <label class="label" for="password-input">Password</label>
-            <input class="input" type="password" id="password-input" title="Password">
+            <input class="input" type="password" id="password-input" title="Password" required>
 
             <button class="button" type="submit">Register</button>
 
@@ -35,43 +36,43 @@
 
         <form id="login-form" class="form">
             <label class="label" for="email-input">E-mail</label>
-            <input class="input" type="email" id="email-input" title="E-mail">
+            <input class="input" type="email" id="email-input" title="E-mail" required>
 
             <label class="label" for="password-input">Password</label>
-            <input class="input" type="password" id="password-input" title="Password">
+            <input class="input" type="password" id="password-input" title="Password" required>
 
             <button class="button" type="submit">Login</button>
         </form>
-        <a href="" id="register-link">Register</a>
+        <a id="register-link" href="">Register</a>
     </div>
 
     <div id="home-view" class="view">
         <header class="header">
             <h1>Home</h1>
             <span id="user-name-span" arial-label="User name">Hello World</span>
-            <button id="new-post-button" arial-label="New post">+</button>
-            <butto id="logout-button">Logout</button>
+            <button id="new-post-button" arial-label="New post" class="button">+</button>
+            <butto id="logout-button" class="button">Logout</button>
         </header>
 
-        <div id="new-post-panel" class="panel-lightgreen">
+        <div id="new-post-panel" class="view">
             <h2>Create post</h2>
 
             <form id="new-post-form" class="form">
                 <label class="label" for="image-imput">Image</label>
-                <input class="input" type="url" id="image-input">
+                <input class="input" type="url" id="image-input" required>
 
-                <label for="image-description-input">Image Description</label>
-                <input type="text" id="image-description-input">
+                <label for="image-description-input" class="label">Image Description</label>
+                <input type="text" id="image-description-input" class="input" required>
 
                 <label class="label" for="text-input">Text</label>
-                <input class="input" type="text" id="text-input">
+                <input class="input" type="text" id="text-input" required>
 
-                <button type="submit">Post</button>
-                <button id="cancel-post-button">Cancel</button>
+                <button type="submit" class="button">Post</button>
+                <button id="cancel-post-button" class="button">Cancel</button>
             </form>
         </div>
 
-        <div id="posts-list"></div>
+        <div id="posts-list" aria-label="Posts list" class="view"></div>
 
     </div>
 
@@ -83,12 +84,14 @@
     <script src="logic/authenticaUser.js"></script>
     <script src="logic/retrieverUser.js"></script>
     <script src="logic/registerUser.js"></script>
+    <script src="logic/createNewPost.js"></script>
+    <script src="logic/retrievePost.js"></script>
+    <script src="logic/toggleLikePost.js"></script>
 
     <script src="main.js"></script>
     <script src="views/register.js"></script>
     <script src="views/login.js"></script>
     <script src="views/home.js"></script>
-
 </body>
 
 </html>

@@ -80,14 +80,13 @@ function renderPosts() {
 
         postsList.innerHTML = ''
 
-        for (var i = posts.length - 1; i >= 0; i--) {
+        for (var i = posts.length - 1; i > -1; i--) {
             var post = posts[i]
 
             var article = document.createElement('article')
             article.setAttribute('aria-label', 'post')
 
             var h3 = document.createElement('h3')
-            span.innerText = post.author
             h3.innerText = post.author
             h3.setAttribute('arial-label', 'author')
 
@@ -99,9 +98,28 @@ function renderPosts() {
             var paragraph = document.createElement('p')
             paragraph.innerText = post.text
 
-            article.appendChild(span)
+            var likeButton = document.createElement('button')
+            likeButton.setAttribute('class', 'button')
+
+            var liked = post.likes.includes(loggedInEmail)
+
+            likeButton.innerText = (liked ? '💖' : '🩶') + ' ' + post.likes.length + 'likes'
+
+            function createLikeButtonOnClick(postIndex) {
+                return function () {
+                    //clousure
+                    toggleLikePost(loggedInEmail, postIndex)
+
+                    renderPosts()
+                }
+            }
+
+            likeButton.onclick = createLikeButtonOnClick(i)
+
+            article.appendChild(h3)
             article.appendChild(image)
             article.appendChild(paragraph)
+            article.appendChild(likeButton)
 
             postsList.appendChild(article)
         }
