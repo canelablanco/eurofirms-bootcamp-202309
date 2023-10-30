@@ -1,3 +1,0 @@
-Arroz.prototype.median = function () {
-
-}
