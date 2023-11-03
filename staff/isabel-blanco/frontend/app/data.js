@@ -12,32 +12,32 @@ var posts = []
 
 posts[0] = {
     author: 'elena@troya.com',
-    image: 'https://eenusa.smugmug.com/Europe/Turkey-2008/Ruins-Memorials-Turkey-2008/i-5ZjLVVW/1/L/tky0508-119c-4535-L.jpg',
-    imageDescription: 'Caballo de troya',
-    text: 'De paseo por el pueblo',
+    image: 'https://static.fnac-static.com/multimedia/Images/ES/NR/46/2d/76/7744838/1540-1.jpg',
+    imageDescription: "Magdalenas de chocobo",
+    text: 'Están de oferta en el Carrefour de Juan carlos primero',
     likes: []
 }
 
 posts[1] = {
     author: 'ash@kechum.com',
-    image: 'https://nintenduo.com/wp-content/uploads/2023/08/Ash-Ketchum-Pikachu-Pokemon-00.webp',
-    imageDescription: 'Pikachu y Ash',
-    text: 'De tascas con mi amigo',
+    image: 'https://imgs.search.brave.com/_7ggOy3Wp0q46FGgCRnNyWZtNcFUftXjhkUUAIetHFg/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzLzI3LzFk/L2JjLzI3MWRiYzQx/N2IyMTBmZjJlNDBm/ZjhjOWJhNWYyNWQ0/LmpwZw',
+    imageDescription: "Moguri",
+    text: 'No solo va de chocobos esta página',
     likes: []
 }
 
 posts[2] = {
     author: 'marge@simpson.com',
-    image: 'https://www.cartv.es/thumbs/960x540c/2021-07/marge-simpson-sixth-season-mistake.jpg',
-    imageDescription: 'Marge estresada',
-    text: 'Hoy es un mal día para poner la lavadora',
+    image: 'https://imgs.search.brave.com/5JILsnN9j6QZxZSz7ueNr8ohFKxY5c3h2dmyGmroYc8/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzL2E3LzE4/L2MyL2E3MThjMjY5/ZWJmNzFmZmJjNjgz/ZDY3Y2IzZmNlNWU5/LmpwZw',
+    imageDescription: 'Chocobo pixel',
+    text: 'Mi primer chocobo hecho a mano',
     likes: []
 }
 
 posts[3] = {
     author: 'ash@kechum.com',
-    image: 'https://fotografias-neox.atresmedia.com/clipping/cmsimages02/2016/05/26/213AB6F7-F1EE-4239-A6D4-D5C016C9A256/98.jpg?crop=778,438,x11,y0&width=1900&height=1069&optimize=high&format=webply',
-    imageDescription: 'Mew',
-    text: 'Hoy vi un pokemon legendario',
+    image: 'https://cdn.hobbyconsolas.com/sites/navi.axelspringer.es/public/media/image/2021/09/chocobo-gp-2484521.jpg',
+    imageDescription: 'chocobogp',
+    text: 'Hoy me vicie muy a este juego',
     likes: []
 }

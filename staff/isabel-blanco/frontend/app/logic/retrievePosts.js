@@ -1,4 +1,4 @@
-function retrieverUser(email) {
+function retrievePosts(email) {
     validateEmail(email)
 
     var foundUser = find(users, function (user) {
@@ -6,6 +6,7 @@ function retrieverUser(email) {
     })
 
     if (foundUser === undefined)
-        throw new Error('wrong credentials')
-    return foundUser
+        throw new Error('user not found')
+
+    return posts
 }

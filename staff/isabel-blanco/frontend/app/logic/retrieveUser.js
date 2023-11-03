@@ -1,4 +1,4 @@
-function retirevePosts(email) {
+function retrieveUser(email) {
     validateEmail(email)
 
     var foundUser = find(users, function (user) {
@@ -6,7 +6,6 @@ function retirevePosts(email) {
     })
 
     if (foundUser === undefined)
-        throw new Error('user not found')
-
-    return posts
+        throw new Error('wrong credentials')
+    return foundUser
 }

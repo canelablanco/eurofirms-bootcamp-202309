@@ -10,7 +10,13 @@ function Register(props) {
         const email = emailInput.value
         const password = passwordInput.value
 
-        console.log(name, email, password)
+        try {
+            registerUser(name, email, password)
+
+            props.onSucess()
+        } catch (error) {
+            alert(error.message)
+        }
     }
 
     function handleLoginClick(event) {
@@ -24,13 +30,13 @@ function Register(props) {
 
         <form className="form" onSubmit={handleRegisterSubmit}>
             <label className="label" htmlFor="name-input">Name</label>
-            <input className="input" type="text" id="name-input" title="Name" required></input>
+            <input className="input" type="text" id="name-input" title="Name" required />
 
             <label className="label" htmlFor="email-input">E-mail</label>
-            <input className="input" type="email" id="email-input" title="E-mail" required></input>
+            <input className="input" type="email" id="email-input" title="E-mail" required />
 
             <label className="label" htmlFor="password-input">Password</label>
-            <input className="input" type="password" id="password-input" title="Password" required></input>
+            <input className="input" type="password" id="password-input" title="Password" required />
 
             <button className="button" type="submit">Register</button>
 
