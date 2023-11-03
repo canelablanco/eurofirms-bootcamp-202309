@@ -1,14 +1,22 @@
-// data
-
-// Crear un array vacío para almacenar usuarios
-var users = [];
-
-// Agregar dos usuarios al array
-users[0] = { name: 'Elena de Troya', email: 'elena@troya.com', password: '123' };
-users[1] = { name: 'Ash Kechum', email: 'ash@kechum.com', password: '123' };
-users[2] = { name: 'Marge Simpson', email: 'marge@simpson.com', password: '123' };
-
+var users = []
 var posts = []
+
+users[0] = {
+    name: 'Elena de Troya',
+    email: 'elena@troya.com',
+    password: '123'
+};
+
+users[1] = {
+    name: 'Ash Kechum',
+    email: 'ash@kechum.com',
+    password: '123'
+};
+users[2] = {
+    name: 'Marge Simpson',
+    email: 'marge@simpson.com',
+    password: '123'
+};
 
 posts[0] = {
     author: 'elena@troya.com',

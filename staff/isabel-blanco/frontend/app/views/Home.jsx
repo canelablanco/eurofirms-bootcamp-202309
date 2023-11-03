@@ -3,6 +3,9 @@ function Home(props) {
     const view = viewState[0]
     const setView = viewState[1]
 
+    const timestampState = React.useState(null)
+    const setTimestamp = timestampState[1]
+
     let name = null
 
     try {
@@ -35,11 +38,41 @@ function Home(props) {
         setView(null)
     }
 
+    function handleNewPostSubmit(event) {
+        event.preventDefault()
+
+        const imageInput = event.target.querySelector('#image-input')
+        const imageDescriptionInput = event.target.querySelector('#image-description-input')
+        const textInput = event.target.querySelector('#text-input')
+
+        const image = imageInput.value
+        const imageDescription = imageDescriptionInput.value
+        const text = textInput.value
+
+        try {
+            createNewPost(loggedInEmail, image, imageDescription, text)
+
+            setView(null)
+        } catch (error) {
+            alert(error.message)
+        }
+    }
+
+    function handlePostLikeClick(postIndex) {
+        try {
+            toggleLikePost(loggedInEmail, postIndex)
+
+            setTimestamp(Date.now())
+        } catch (error) {
+            alert(error.message)
+        }
+    }
+
     return <div>
         <header className="header" aria-label="Header">
             <h1>Home</h1>
             <span arial-label="User name">{name}</span>
-            <button arial-label="New post" className="button" onClick={handleNewPostClick}>+</button>
+            <button title="New Post" arial-label="New post" className="button" onClick={handleNewPostClick}>+</button>
             <button className="button" onClick={handleLogoutClick}>Logout</button>
         </header>
 
@@ -47,7 +80,7 @@ function Home(props) {
         {view === 'new-post' ? <div className="view">
             <h2>Create post</h2>
 
-            <form id="new-post-form" className="form">
+            <form className="form" onSubmit={handleNewPostSubmit}>
                 <label className="label" htmlFor="image-imput">Image</label>
                 <input className="input" type="url" id="image-input" required />
 
@@ -62,18 +95,23 @@ function Home(props) {
             </form>
         </div> : null}
 
-        {posts !== null ? <div id="post-list" aria-label="Posts list" className="view">
-            {posts.map(function (post, index) {
+        {posts !== null ? <div aria-label="Posts list" className="view">
+            {posts.toReversed().map(function (post, index, posts) {
                 const liked = post.likes.includes(loggedInEmail)
 
-                return <article key={index}>
+                function handleBeforePostLikeClick() {
+                    handlePostLikeClick(posts.length - 1 - index)
+                }
+
+                return <article key={index} className="post">
                     <h3>{post.author}</h3>
                     <img className="post-image"
                         src={post.image}
-                        alt={post.imageDescription} />
+                        alt={post.imageDescription}
+                        title={post.imageDescription} />
 
                     <p>{post.text}</p>
-                    <button>{(liked ? '💕' : '🩶') + ' ' + post.likes.lenght + ' likes'}</button>
+                    <button className="button" onClick={handleBeforePostLikeClick}>{(liked ? '💕' : '🩶') + ' ' + post.likes.length + ' likes'}</button>
                 </article>
             })}
         </div> : null}

@@ -6,7 +6,7 @@ function createNewPost(email, image, imageDescription, text) {
 
     // Search user by email
 
-    var foundUser = find(user, function (user) {
+    var foundUser = find(users, function (user) {
         return user.email === email
     })
 
