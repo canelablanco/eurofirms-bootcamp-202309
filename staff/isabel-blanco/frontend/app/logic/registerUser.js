@@ -11,9 +11,9 @@ function registerUser(name, email, password) {
 
     //if user exists (it was found) the error
 
-    if (foundUser !== undefined) {
+    if (foundUser !== undefined)
         throw new Error('User alredy exists')
-    }
+
 
     var user = {}
     user.name = name

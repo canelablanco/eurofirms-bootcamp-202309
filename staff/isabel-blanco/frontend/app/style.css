@@ -46,6 +46,14 @@ h2 {
 
 }
 
+.post {
+    padding: 0.5rem;
+}
+
+.post:hover {
+    background-color: rgb(236, 213, 82);
+}
+
 .post-image {
     max-width: 300px;
     display: flex;
@@ -60,4 +68,8 @@ h2 {
 
 .new-post-panel {
     margin-top: 20px;
+}
+
+audio {
+    display: none;
 }
