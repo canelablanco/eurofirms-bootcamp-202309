@@ -2,24 +2,22 @@ function toggleLikePost(email, postId) {
     validateEmail(email)
     validateNumber(postId, 'post id')
 
-    var foundUser = find(users, function (user) {
-        return user.email === email
-    })
+    const user = db.findUserById(userId)
 
-    if (foundUser === undefined)
-        throw new Error('wrong credentials')
+    if (!user)
+        throw new Error('user not found')
 
-    var post = find(posts, function (post) {
-        return post.id === postId
-    })
+    const post = db.findUserById(postId)
 
-    if (post === undefined)
+    if (!post)
         throw new Error('post not found')
 
-    var emailIndex = post.likes.indexOf(email)
+    const index = post.likes.indexOf(userId)
 
-    if (emailIndex < 0)
-        post.likes.push(email)
+    if (index < 0)
+        post.likes.push(userId)
     else
-        post.likes.splice(emailIndex, 1)
+        post.likes.splice(index, 1)
+
+    db.updatePost(post)
 }

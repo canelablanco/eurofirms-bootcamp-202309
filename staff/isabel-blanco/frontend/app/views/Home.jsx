@@ -1,5 +1,5 @@
 function Home(props) {
-    console.log('Home')
+    console.log('Club Chocobo')
 
     const viewState = React.useState(null)
     const view = viewState[0]
@@ -11,7 +11,7 @@ function Home(props) {
     let name = null
 
     try {
-        const user = retrieveUser(loggedInEmail)
+        const user = retrieveUser(sessionUserId)
 
         name = user.name
     } catch (error) {
@@ -21,13 +21,13 @@ function Home(props) {
     let posts = null
 
     try {
-        posts = retrievePosts(loggedInEmail)
+        posts = retrievePosts(sessionUserId)
     } catch (error) {
         alert(error.message)
     }
 
     function handleLogoutClick() {
-        loggedInEmail = null
+        sessionUserId = null
 
         props.onLogout()
     }
@@ -52,7 +52,7 @@ function Home(props) {
         const text = textInput.value
 
         try {
-            createNewPost(loggedInEmail, image, imageDescription, text)
+            createNewPost(sessionUserId, image, imageDescription, text)
 
             setView(null)
         } catch (error) {
@@ -62,7 +62,7 @@ function Home(props) {
 
     function handlePostLikeClick(postId) {
         try {
-            toggleLikePost(loggedInEmail, postId)
+            toggleLikePost(sessionUserId, postId)
 
             setTimestamp(Date.now())
         } catch (error) {
@@ -72,7 +72,7 @@ function Home(props) {
 
     return <div>
         <header className="header" aria-label="Header">
-            <h1>Home</h1>
+            <h1>Club Chocobo</h1>
             <span arial-label="User name">{name}</span>
             <button title="New Post" arial-label="New post" className="button" onClick={handleNewPostClick}>+</button>
             <button className="button" onClick={handleLogoutClick}>Logout</button>
@@ -99,8 +99,6 @@ function Home(props) {
 
         {posts !== null ? <div aria-label="Posts list" className="view">
             {posts.toReversed().map(function (post) {
-                const liked = post.likes.includes(loggedInEmail)
-
                 function handleBeforePostLikeClick() {
                     handlePostLikeClick(posts.id)
                 }
@@ -113,7 +111,7 @@ function Home(props) {
                         title={post.imageDescription} />
 
                     <p>{post.text}</p>
-                    <button className="button" onClick={handleBeforePostLikeClick}>{(liked ? '💕' : '🩶') + ' ' + post.likes.length + ' likes'}</button>
+                    <button className="button" onClick={handleBeforePostLikeClick}>{(post.liked ? '🐈' : '🐈‍⬛') + ' ' + post.likes.length + ' likes'}</button>
                 </article>
             })}
         </div> : null}

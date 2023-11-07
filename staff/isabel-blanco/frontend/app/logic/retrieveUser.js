@@ -1,11 +1,9 @@
-function retrieveUser(email) {
-    validateEmail(email)
+function retrieveUser(userId) {
+    validateEmail(userId)
 
-    var foundUser = find(users, function (user) {
-        return user.email === email
-    })
+    const user = db.findUserById(userId)
 
-    if (foundUser === undefined)
-        throw new Error('wrong credentials')
-    return foundUser
+    if (!user)
+        throw new Error('user not found')
+    return user
 }
