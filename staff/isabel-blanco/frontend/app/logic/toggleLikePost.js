@@ -1,5 +1,5 @@
-function toggleLikePost(email, postId) {
-    validateEmail(email)
+function toggleLikePost(userId, postId) {
+    validateEmail(userId)
     validateNumber(postId, 'post id')
 
     const user = db.findUserById(userId)

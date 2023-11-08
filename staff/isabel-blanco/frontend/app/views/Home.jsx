@@ -70,6 +70,26 @@ function Home(props) {
         }
     }
 
+    function handlePostDeleteClick(postId) {
+        try {
+            deletePost(sessionId, postId)
+
+            setTimestamp(Date.now(postId))
+        } catch (error) {
+            alert(error.message)
+        }
+    }
+
+    function handlePostSaveClick(postId) {
+        try {
+            toggleSavePost(sessionUserId, postId)
+
+            setTimestamp(Date.now())
+        } catch (error) {
+            alert(error.message)
+        }
+    }
+
     return <div>
         <header className="header" aria-label="Header">
             <h1>Club Chocobo</h1>
@@ -103,6 +123,17 @@ function Home(props) {
                     handlePostLikeClick(posts.id)
                 }
 
+                function handleBeforePostDeleteClick() {
+                    const confirmed = confirm('Delete post?')
+
+                    if (confirmed)
+                        handlePostDeleteClick(post.id)
+                }
+
+                function handleBeforePostSaveClick() {
+                    handlePostSaveClick()
+                }
+
                 return <article key={post.id} className="post">
                     <h3>{post.author}</h3>
                     <img className="post-image"
@@ -112,6 +143,10 @@ function Home(props) {
 
                     <p>{post.text}</p>
                     <button className="button" onClick={handleBeforePostLikeClick}>{(post.liked ? '🐈' : '🐈‍⬛') + ' ' + post.likes.length + ' likes'}</button>
+
+                    <button className="button" onClick={handleBeforePostSaveClick}>{post.saved ? '✨' : '🔮'}</button>
+
+                    {post.author.id === sessionUserId ? <button className="button" onclick={handleBeforePostDeleteClick}>Delete</button> : null}
                 </article>
             })}
         </div> : null}

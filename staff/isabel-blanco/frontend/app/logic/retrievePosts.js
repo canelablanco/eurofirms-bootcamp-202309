@@ -6,14 +6,19 @@ function retrievePosts(userId) {
     if (!user)
         throw new Error('user not found')
 
-    const posts = db.getsPosts()
+    const posts = db.getPosts()
 
     posts.forEach(function (post) {
-        const user = db.findUserById(post.author)
+        const author = db.findUserById(post.author)
 
-        post.author = user.name
+        post.author = {
+            id: user.id,
+            name: author.name
+        }
 
         post.liked = post.likes.includes(userId)
+
+        post.saved = user.saved.includes(post.id)
     })
 
     return posts

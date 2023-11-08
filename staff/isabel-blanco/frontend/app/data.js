@@ -2,11 +2,12 @@ function generateId() {
     return Math.floor((Math.random() * 1000000000000000000)).toString(36)
 }
 
-function User(id, name, email, password) {
+function User(id, name, email, password, saved) {
     this.id = id
     this.name = name
     this.email = email
     this.password = password
+    this.saved = saved
 }
 
 function Post(id, author, image, imageDescription, text, likes) {
@@ -19,7 +20,7 @@ function Post(id, author, image, imageDescription, text, likes) {
 }
 
 function cloneUser(user) {
-    return new User(user.id, user.name, user.email, user.password)
+    return new User(user.id, user.name, user.email, user.password, [...user.saved])
 }
 
 function clonePost(post) {
@@ -55,6 +56,19 @@ const db = {
         return cloneUser(user)
     },
 
+    updateUser: function (user) {
+        const userId = user.id
+
+        const userIndex = this.user.findIndex(function (user) {
+            return user.id === userId
+        })
+
+        if (userIndex < 0)
+            throw new Error('user not found')
+
+        this.users[userIndex] = cloneUser(user)
+    },
+
     getPosts: function () {
         return this.posts.map(function (post) {
             return clonePost(post)
@@ -88,13 +102,25 @@ const db = {
             throw new Error('post not found')
 
         this.posts[postIndex] = clonePost(post)
+    },
+
+    removePostById: function (id) {
+        const postIndex = this.posts.findIndex(function (post) {
+            return post.id === id
+        })
+
+        if (postIndex < 0)
+            throw new Error('post not found')
+
+        this.posts.splice(postIndex, 1)
     }
 }
 
-db.users[0] = new User(generateId(), 'Elena de Troya', 'elena@troya.com', '123')
+db.users[0] = new User(generateId(), 'Elena de Troya', 'elena@troya.com', '123', [])
 
-db.users[1] = new User(generateId(), 'Ash Kepchum', 'ash@kepchum.com', '123')
-db.users[2] = new User(generateId(), 'Marge Simpson', 'marge@simpson.com', '123')
+db.users[1] = new User(generateId(), 'Ash Kepchum', 'ash@kepchum.com', '123', [])
+
+db.users[2] = new User(generateId(), 'Marge Simpson', 'marge@simpson.com', '123', [])
 
 db.posts[0] = new Post(generateId(), db.users[0].id, 'elena@troya.com', 'https://static.fnac-static.com/multimedia/Images/ES/NR/46/2d/76/7744838/1540-1.jpg', "Magdalenas de chocobo", 'Están de oferta en el Carrefour de Juan carlos primero', [])
 
