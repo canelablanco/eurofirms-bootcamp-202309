@@ -1,5 +1,5 @@
 function retrievePosts(userId) {
-    validateEmail(userId, 'user id')
+    validateText(userId, 'user id')
 
     const user = db.findUserById(userId)
 
@@ -12,7 +12,7 @@ function retrievePosts(userId) {
         const author = db.findUserById(post.author)
 
         post.author = {
-            id: user.id,
+            id: author.id,
             name: author.name
         }
 

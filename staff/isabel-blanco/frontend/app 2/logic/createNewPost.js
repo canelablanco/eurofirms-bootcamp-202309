@@ -1,5 +1,5 @@
 function createNewPost(userId, image, imageDescription, text) {
-    validateEmail(userId, 'user id')
+    validateText(userId, 'user id')
     validateUrl(image, 'image url')
     validateText(imageDescription, 'image description')
     validateText(text, 'text')

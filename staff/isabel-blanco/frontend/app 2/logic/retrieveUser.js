@@ -1,5 +1,5 @@
 function retrieveUser(userId) {
-    validateEmail(userId)
+    validateText(userId)
 
     const user = db.findUserById(userId)
 

@@ -72,7 +72,7 @@ function Home(props) {
 
     function handlePostDeleteClick(postId) {
         try {
-            deletePost(sessionId, postId)
+            deletePost(sessionUserId, postId)
 
             setTimestamp(Date.now(postId))
         } catch (error) {
@@ -120,7 +120,7 @@ function Home(props) {
         {posts !== null ? <div aria-label="Posts list" className="view">
             {posts.toReversed().map(function (post) {
                 function handleBeforePostLikeClick() {
-                    handlePostLikeClick(posts.id)
+                    handlePostLikeClick(post.id)
                 }
 
                 function handleBeforePostDeleteClick() {
@@ -131,11 +131,11 @@ function Home(props) {
                 }
 
                 function handleBeforePostSaveClick() {
-                    handlePostSaveClick()
+                    handlePostSaveClick(post.id)
                 }
 
                 return <article key={post.id} className="post">
-                    <h3>{post.author}</h3>
+                    <h3>{post.author.name}</h3>
                     <img className="post-image"
                         src={post.image}
                         alt={post.imageDescription}
@@ -145,8 +145,7 @@ function Home(props) {
                     <button className="button" onClick={handleBeforePostLikeClick}>{(post.liked ? '🐈' : '🐈‍⬛') + ' ' + post.likes.length + ' likes'}</button>
 
                     <button className="button" onClick={handleBeforePostSaveClick}>{post.saved ? '✨' : '🔮'}</button>
-
-                    {post.author.id === sessionUserId ? <button className="button" onclick={handleBeforePostDeleteClick}>Delete</button> : null}
+                    {post.author.id === sessionUserId ? <button className="button" onClick={handleBeforePostDeleteClick}>Delete</button> : null}
                 </article>
             })}
         </div> : null}

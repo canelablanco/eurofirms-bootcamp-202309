@@ -1,13 +1,13 @@
 function toggleLikePost(userId, postId) {
-    validateEmail(userId)
-    validateNumber(postId, 'post id')
+    validateText(userId, 'user id')
+    validateText(postId, 'post id')
 
     const user = db.findUserById(userId)
 
     if (!user)
         throw new Error('user not found')
 
-    const post = db.findUserById(postId)
+    const post = db.findPostById(postId)
 
     if (!post)
         throw new Error('post not found')
