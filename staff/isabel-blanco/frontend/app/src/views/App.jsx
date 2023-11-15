@@ -1,5 +1,8 @@
-import React from "react"
-import Login from "./views/login"
+import Login from './Login'
+import React from 'react'
+import Logo from './components/Logo'
+import Register from './views/Register'
+import Home from './views/Home'
 
 function App() {
   console.log('App')
@@ -22,14 +25,13 @@ function App() {
   }
 
   return <>
-    {/* <Logo /> */}
+    <Logo />
 
     {view === 'login' ? <Login onSuccess={handleHomeShow} onRegisterClick={handleRegisterShow} /> : null}
 
-    {/* {view === 'register' ? <Register onSuccess={handleLoginShow} onLoginClick={handleLoginShow} /> : null}
+    {view === 'register' ? <Register onSuccess={handleLoginShow} onLoginClick={handleLoginShow} /> : null}
 
-      {view === 'home' ? <Home onLogout={handleLoginShow} /> : null} */}
-    {view === 'home' ? <div><h1>Hola Mundo</h1></div> : null}
+    {view === 'home' ? <Home onLogout={handleLoginShow} /> : null}
   </>
 }
 

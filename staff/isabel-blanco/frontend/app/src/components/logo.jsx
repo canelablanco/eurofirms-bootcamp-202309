@@ -1,3 +1,5 @@
+import React from "react"
+
 function Logo() {
     console.log('Logo')
 
@@ -34,4 +36,4 @@ function Logo() {
     </div>
 }
 
-export default App
+export default Logo

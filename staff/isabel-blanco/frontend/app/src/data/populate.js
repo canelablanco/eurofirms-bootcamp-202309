@@ -15,3 +15,5 @@ db.posts[1] = new Post(generateId(), db.users[1].id, 'https://imgs.search.brave.
 db.posts[2] = new Post(generateId(), db.users[2].id, 'https://imgs.search.brave.com/5JILsnN9j6QZxZSz7ueNr8ohFKxY5c3h2dmyGmroYc8/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9pLnBp/bmltZy5jb20vb3Jp/Z2luYWxzL2E3LzE4/L2MyL2E3MThjMjY5/ZWJmNzFmZmJjNjgz/ZDY3Y2IzZmNlNWU5/LmpwZw', 'Chocobo pixel', 'Mi primer chocobo hecho a mano', [])
 
 db.posts[3] = new Post(generateId(), db.users[1].id, 'https://cdn.hobbyconsolas.com/sites/navi.axelspringer.es/public/media/image/2021/09/chocobo-gp-2484521.jpg', 'chocobogp', 'Hoy me vicie muy a este juego', [])
+
+db.users[0].saved.push(db.post[2].id)
