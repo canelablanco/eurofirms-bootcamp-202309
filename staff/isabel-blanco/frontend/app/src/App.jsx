@@ -1,4 +1,4 @@
-import Login from './Login'
+import Login from '/views/Login'
 import React from 'react'
 import Logo from './components/Logo'
 import Register from './views/Register'
