@@ -1,31 +1,21 @@
 import { useState } from "react"
 
 import retrieveUser from "../logic/retrieveUser"
-import retrievePosts from "../logic/retrievePosts"
-import createNewPost from "../logic/createNewPost"
-import toggleLikePost from "../logic/toggleLikePost"
-import toggleSavePost from "../logic/toggleSavePost"
-import retrieveSavedPosts from "../logic/retrieveSavedPosts"
-import deletePost from "../logic/deletePost"
 
 import Button from "../components/Button"
 import Link from "../components/Link"
-import Field from "../components/Field"
-import Form from "../components/Form"
 import Container from "../components/Container"
-import Post from "../components/Post"
+import MyPosts from "../components/MyPosts"
+import NewPost from "../components/NewPosts"
+import AllPosts from "../components/AllPost"
+import SavedPosts from "../components/SavedPosts"
 
 import Logo from "../components/Logo"
-import Label from "../components/Label"
 
 function Home(props) {
     console.log('Home')
 
     const [view, setView] = useState(null)
-
-    const [timestamp, setTimestamp] = useState(null)
-
-    const [saved, setSaved] = useState(null)
 
     let name = null
 
@@ -33,14 +23,6 @@ function Home(props) {
         const user = retrieveUser(window.sessionUserId)
 
         name = user.name
-    } catch (error) {
-        alert(error.message)
-    }
-
-    let posts = null
-
-    try {
-        posts = retrievePosts(window.sessionUserId)
     } catch (error) {
         alert(error.message)
     }
@@ -62,94 +44,25 @@ function Home(props) {
     function handleNewPostSubmit(event) {
         event.preventDefault()
 
-        const imageInput = event.target.querySelector('#image-input')
-        const imageDescriptionInput = event.target.querySelector('#image-description-input')
-        const textInput = event.target.querySelector('#text-input')
-
-        const image = imageInput.value
-        const imageDescription = imageDescriptionInput.value
-        const text = textInput.value
-
-        try {
-            createNewPost(window.sessionUserId, image, imageDescription, text)
-
-            setView(null)
-        } catch (error) {
-            alert(error.message)
-        }
-    }
-
-    function handlePostLikeClick(postId) {
-        try {
-            toggleLikePost(window.sessionUserId, postId)
-
-            if (view === 'saved') {
-                const saved = retrieveSavedPosts(window.sessionUserId)
-
-                setSaved(saved)
-
-                return
-            }
-
-            setTimestamp(Date.now())
-        } catch (error) {
-            alert(error.message)
-        }
-    }
-
-    function handlePostDeleteClick(postId) {
-        try {
-            deletePost(sessionUserId, postId)
-
-            if (view === 'saved') {
-                const saved = retrieveSavedPosts(window.sessionUserId)
-
-                setSaved(saved)
-
-                return
-            }
-
-            setTimestamp(Date.now())
-        } catch (error) {
-            alert(error.message)
-        }
-    }
-
-    function handlePostSaveClick(postId) {
-        try {
-            toggleSavePost(window.sessionUserId, postId)
-
-            if (view === 'saved') {
-                const saved = retrieveSavedPosts(window.sessionUserId)
-
-                setSaved(saved)
-
-                return
-            }
-
-            setTimestamp(Date.now())
-        } catch (error) {
-            alert(error.message)
-        }
+        setView('saved')
     }
 
     function handleSavedClick(event) {
         event.preventDefault()
 
-        try {
-            const saved = retrieveSavedPosts(window.sessionUserId)
-
-            setSaved(saved)
-            setView('saved')
-        } catch (error) {
-            alert(error.message)
-        }
+        setView('saved')
     }
 
     function handleHomeClick(event) {
         event.preventDefault()
 
         setView(null)
+    }
+
+    function handleMyPostsClick(event) {
+        event.preventDefault()
+
+        setView('my-posts')
     }
 
     return <Container>
@@ -162,36 +75,19 @@ function Home(props) {
 
             <Link onClick={handleSavedClick}>Saved</Link>
 
+            <Link onClick={handleMyPostsClick}>My posts</Link>
+
             <Button onClick={handleLogoutClick}>Logout</Button>
         </header>
 
-        {view === 'new-post' ? <Container className="view">
-            <h2>New post</h2>
+        {view === 'new-post' ? <NewPost onNewPostSubmit={handleNewPostSubmit} onNewPostCancelClick={handleNewPostCancelClick} /> : null}
 
-            <Form onSubmit={handleNewPostSubmit}>
-                <Field type="url" id="image-field" required>Image</Field>
+        {view === null || view === 'new-posts' ? <AllPosts /> : null}
 
-                <Field type="text" id="image-description-field" required >Image description</Field>
+        {view === 'saved' ? <SavedPosts /> : null}
 
-                <Field type="text" id="text-field" required >Text</Field>
-                <input />
+        {view === 'my-post' ? <MyPosts /> : null}
 
-                <Button type="submit">Post</Button>
-                <Button onClick={handleNewPostCancelClick}>Cancel</Button>
-            </Form>
-        </Container> : null}
-
-        {(view === null || view === 'new-post') && posts !== null ? <Container aria-label="Posts list" className="view">
-            {posts.map(function (post) {
-                return <Post post={post} onLikeClik={handlePostLikeClick} onLikeClick={handlePostLikeClick} onSaveClick={handlePostSaveClick} onDeleteClick={handlePostDeleteClick} />
-            })}
-        </Container> : null}
-
-        {view === 'saved' && saved !== null ? <Container aria-label="Saved list" className="view">
-            {saved.map(function (post) {
-                return <Post post={post} onLikeClick={handlePostLikeClick} onSaveClick={handlePostSaveClick} onDeleteClick={handlePostDeleteClick} />
-            })}
-        </Container> : null}
     </Container>
 }
 

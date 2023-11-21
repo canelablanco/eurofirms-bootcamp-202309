@@ -36,6 +36,7 @@ function Login(props) {
     }
 
     return <Container align="center">
+        <Logo />
         <h1>Login</h1>
 
         <Form onSubmit={handleLoginSubmit}>

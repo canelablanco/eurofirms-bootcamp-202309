@@ -1,7 +1,7 @@
 import { validateText } from "../utils/validators"
 import db from "../data/managers"
 
-function retrievePosts(userId) {
+function retrieveMyPosts(userId) {
     validateText(userId, 'user id')
 
     const user = db.findUserById(userId)
@@ -9,14 +9,14 @@ function retrievePosts(userId) {
     if (!user)
         throw new Error('User not found')
 
-    const posts = db.getPosts().reverse()
+    const posts = db.getPosts().reverse().filter(function (post) {
+        return post.author === user.id
+    })
 
     posts.forEach(function (post) {
-        const author = db.findUserById(post.author)
-
         post.author = {
-            id: author.id,
-            name: author.name
+            id: user.id,
+            name: user.name
         }
 
         post.liked = post.likes.includes(userId)
@@ -27,4 +27,4 @@ function retrievePosts(userId) {
     return posts
 }
 
-export default retrievePosts
+export default retrieveMyPosts

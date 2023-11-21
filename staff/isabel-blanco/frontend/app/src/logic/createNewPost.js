@@ -1,5 +1,5 @@
-import { validateText, validateUrl } from '../utils/validators'
-import db from '../data/managers'
+import { validateText, validateUrl } from "../utils/validators"
+import db from "../data/managers"
 
 function createNewPost(userId, image, imageDescription, text) {
     validateText(userId, 'user id')

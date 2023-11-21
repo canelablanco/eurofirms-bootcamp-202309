@@ -1,5 +1,5 @@
-import { validateText } from '../utils/validators'
-import db from '../data/managers'
+import { validateText } from "../utils/validators"
+import db from "../data/managers"
 
 function retrieveSavedPosts(userId) {
     validateText(userId, 'user id')

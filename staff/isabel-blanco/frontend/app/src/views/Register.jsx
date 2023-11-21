@@ -38,6 +38,8 @@ function Register(props) {
     }
 
     return <Container align="center">
+        <Logo />
+
         <h1>Register</h1>
 
         <Form onSubmit={handleRegisterSubmit}>

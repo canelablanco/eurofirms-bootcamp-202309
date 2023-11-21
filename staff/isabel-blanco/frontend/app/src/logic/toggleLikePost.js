@@ -1,5 +1,5 @@
-import { validateText } from '../utils/validators'
-import db from '../data/managers'
+import { validateText } from "../utils/validators"
+import db from "../data/managers"
 
 function toggleLikePost(userId, postId) {
     validateText(userId, 'user id')

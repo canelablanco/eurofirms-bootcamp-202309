@@ -1,5 +1,5 @@
-import { validateEmail, validatePassword } from '../utils/validators'
-import db from '../data/managers'
+import { validateEmail, validatePassword } from "../utils/validators"
+import db from "../data/managers"
 
 function authenticateUser(email, password) {
     validateEmail(email)
