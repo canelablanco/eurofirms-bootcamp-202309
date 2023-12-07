@@ -3,7 +3,7 @@ const { validateText, validateEmail, validatePassword, validateFunction } = requ
 const { User } = require("../data/models")
 
 function updateUserEmail(userId, newEmail, repeatNewEmail, password, callback) {
-    validateText(userId, 'userId')
+    validateText(userId, 'user id')
     validateEmail(newEmail, 'newEmail')
     validateEmail(repeatNewEmail, 'repeatNewEmail')
     validatePassword(password, 'password')

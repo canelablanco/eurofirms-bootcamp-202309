@@ -3,7 +3,7 @@ const { validateText, validateText, validateFunction } = require('./helpers/vali
 const { User } = require('../data/models')
 
 function retrieveUser(userId, callback) {
-    validateText(userId, 'userId')
+    validateText(userId, 'user id')
     validateFunction(callback, 'callback')
 
     User.findById(userId).select('-_id -email -password -saved -__v').lean()

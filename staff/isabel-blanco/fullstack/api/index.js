@@ -12,13 +12,9 @@ mongoose.connect('mongodb://127.0.0.1/api')
     .then(() => {
         const api = express()
 
-        api.get('/helloworld', (req, res) => {
-            res.send('Hello, World')
-        })
+        api.get('/helloworld', (req, res) => res.send('Hello, World'))
 
-        api.get('/holamundo', (req, res) => {
-            res.send('Hola, Mundo')
-        })
+        api.get('/holamundo', (req, res) => res.send('Hola, Mundo'))
 
         api.get('/hello', (req, res) => {
             const name = req.query.name
@@ -27,6 +23,16 @@ mongoose.connect('mongodb://127.0.0.1/api')
         })
 
         const jsonBodyParser = express.json()
+
+        const cors = (req, res, next) => {
+            res.header('Acces-Control-Allow-Origin', '*')
+            res.header('Acces-Control-Allow-Methods', '*')
+            res.header('Acces-Control-Allow-Header', '*')
+
+            next()
+        }
+
+        api.use('*', cors)
 
         api.post('/users', jsonBodyParser, (req, res) => {
             const body = req.body
@@ -125,6 +131,27 @@ mongoose.connect('mongodb://127.0.0.1/api')
 
             try {
                 toggleLikePost(userId, postId, error => {
+                    if (error) {
+                        res.status(400).json({ error: error.message })
+
+                        return
+                    }
+
+                    res.status(204).send()
+                })
+            } catch (error) {
+                res.status(400).json({ error: error.message })
+            }
+        })
+
+        api.path('/users/password', jsonBodyParser, (req, res) => {
+            const userId = req.headers.authorization.slice(7)
+
+            const body = req.body
+            const { password, newPassword, repeatNewPassword } = body
+
+            try {
+                updateUserPassword(userId, password, newPassword, repeatNewPassword, error => {
                     if (error) {
                         res.status(400).json({ error: error.message })
 

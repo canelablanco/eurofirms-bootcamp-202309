@@ -2,8 +2,8 @@ const { User, Post } = require('../../api 1/data/models')
 const { validateText, validateFunction } = require('./helpers/validators')
 
 function toggleLikePost(userId, postId, callback) {
-    validateText(userId, 'userId')
-    validateText(postId, 'postId')
+    validateText(userId, 'user id')
+    validateText(postId, 'post id')
     validateFunction(callback, 'callback')
 
     User.findById(userId)
