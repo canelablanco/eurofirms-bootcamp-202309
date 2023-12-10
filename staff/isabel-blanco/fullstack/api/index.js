@@ -7,6 +7,8 @@ const retrieveUser = require('./logic/retrieveUser')
 const createPost = require('./logic/createPost')
 const retrievePosts = require('./logic/retrievePosts')
 const toggleLikePost = require('./logic/toggleLikePost')
+const updateUserPassword = require('./logic/updateUserPassword')
+const toggleSavePost = require('./logic/toggleSavePost')
 
 mongoose.connect('mongodb://127.0.0.1/api')
     .then(() => {
@@ -131,6 +133,25 @@ mongoose.connect('mongodb://127.0.0.1/api')
 
             try {
                 toggleLikePost(userId, postId, error => {
+                    if (error) {
+                        res.status(400).json({ error: error.message })
+
+                        return
+                    }
+
+                    res.status(204).send()
+                })
+            } catch (error) {
+                res.status(400).json({ error: error.message })
+            }
+        })
+
+        api.patch('/posts/:postId/saves', (req, res) => {
+            const userId = req.headers.authorization.slice(7)
+            const postId = req.params.postId
+
+            try {
+                toggleSavePost(userId, postId, error => {
                     if (error) {
                         res.status(400).json({ error: error.message })
 
