@@ -5,24 +5,26 @@ function toggleLikePost(userId, postId) {
     validateText(userId, 'user id')
     validateText(postId, 'post id')
 
-    const user = db.findUserById(userId)
+    const req = {
+        method: 'PATCH',
+        headers: {
+            Authorizacion: `Bearer ${userId}`
+        }
+    }
 
-    if (!user)
-        throw new Error('User not found')
+    fetch(`http://localhost:4000/posts/${postId}/likes`, req)
+        .then(res => {
+            if (res.ok) {
+                req.json()
+                    .then(body => callback(new Error(body.error)))
+                    .catch(error => callback(error))
 
-    const post = db.findPostById(postId)
+                return
+            }
 
-    if (!post)
-        throw new Error('Post not found')
-
-    const index = post.likes.indexOf(userId)
-
-    if (index < 0)
-        post.likes.push(userId)
-    else
-        post.likes.splice(index, 1)
-
-    db.updatePost(post)
+            callback(null)
+        })
+        .catch(error => callback(error))
 }
 
 export default toggleLikePost

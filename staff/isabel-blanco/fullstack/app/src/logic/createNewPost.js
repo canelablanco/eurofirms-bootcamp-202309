@@ -1,5 +1,4 @@
 import { validateText, validateUrl } from "../utils/validators"
-import db from "../data/managers"
 
 function createNewPost(userId, image, imageDescription, text) {
     validateText(userId, 'user id')
@@ -7,12 +6,28 @@ function createNewPost(userId, image, imageDescription, text) {
     validateText(imageDescription, 'image description')
     validateText(text, 'text')
 
-    const user = db.findUserById(userId)
+    const req = {
+        method: 'POST',
+        headers: {
+            Authorizacion: `Bearer ${userId}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ image, imageDescription, text })
+    }
 
-    if (!user)
-        throw new Error('User not found')
+    fetch('http://localhost:4000/posts', req)
+        .then(res => {
+            if (!res.ok) {
+                res.json()
+                    .then(body => callback(new Error(body.error)))
+                    .catch(error => callback(error))
 
-    db.createPost(userId, image, imageDescription, text)
+                return
+            }
+
+            callback(null)
+        })
+        .catch(error => callback(error))
 }
 
 export default createNewPost

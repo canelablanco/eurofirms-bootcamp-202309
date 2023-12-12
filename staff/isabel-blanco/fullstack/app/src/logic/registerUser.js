@@ -1,17 +1,30 @@
 import { validateText, validateEmail, validatePassword } from "../utils/validators"
-import db from "../data/managers"
 
 function registerUser(name, email, password) {
     validateText(name, 'name')
     validateEmail(email)
     validatePassword(password)
+    validateFunction(callback, 'callback')
 
-    const user = db.findUserByEmail(email)
+    const req = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name, email, password })
+    }
 
-    if (user)
-        throw new Error('User already exists')
+    fetch('http://localhost:4000/users', req)
+        .then(res => {
+            if (!res.ok) {
+                res.json()
+                    .then(body => callback(new Error(body.error)))
+                    .catch(error => callback(error))
+            }
 
-    db.createUser(name, email, password)
+            callback(null)
+        })
+        .catch(error => callback(error))
 }
 
 export default registerUser

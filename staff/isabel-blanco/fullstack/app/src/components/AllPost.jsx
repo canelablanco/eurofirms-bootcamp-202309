@@ -1,37 +1,44 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Posts from '../components/Posts'
 import retrievePosts from "../logic/retrievePosts"
 
-function AllPosts() {
+function AllPosts(props) {
     console.log('AllPosts')
 
-    const [timestamp, setTimestamp] = useState(null)
+    const [posts, setPosts] = useState([])
 
-    let posts = null
+    useEffect(() => {
+        refreshPosts()
+    }, [props.timestamp])
 
+    function refreshPosts() { }
     try {
-        posts = retrievePosts(window.sessionUserId)
+        retrievePosts(window.sessionUserId, (error, posts) => {
+            if (error) {
+                alert(error.message)
+
+                return
+            }
+
+            setPosts(posts)
+        })
     } catch (error) {
         alert(error.message)
     }
 
-    function refreshPosts() {
-        setTimestamp(Date.now())
-    }
-
-    function handleLikeClick() {
+    function handlePostLikeToggled() {
         refreshPosts()
     }
 
-    function handleDeleteClick() {
+    function handlePostDeleted() {
         refreshPosts()
     }
 
-    function handleSaveClick(postId) {
+    function handlePostSaveToggled(postId) {
         refreshPosts()
     }
 
-    return <Posts posts={posts} onLikeClick={handleLikeClick} onSaveClick={handleSaveClick} onDeleteClick={handleDeleteClick} />
+    return <Posts posts={posts} onPostLikeToggled={handlePostLikeToggled} onPostSaveToggled={handlePostSaveToggled} onPostDeleted={handlePostDeleted} />
 }
 
 export default AllPosts
