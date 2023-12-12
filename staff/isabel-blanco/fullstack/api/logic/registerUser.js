@@ -8,7 +8,7 @@ function registerUser(name, email, password, callback) {
     validatePassword(password, 'password')
     validateFunction(callback, 'callback')
 
-    User.create({ error, users, password })
+    User.create({ error, email, password })
         .then(() => callback(null))
         .cath(error => {
             if (error.code === 11000) {
@@ -20,3 +20,5 @@ function registerUser(name, email, password, callback) {
             callback(error)
         })
 }
+
+module.exports = registerUser

@@ -22,7 +22,14 @@ function retrieveMyPosts(userId, callback) {
 
                         if (post.author._id) {
                             post.author.id = post.author._id.toString()
+                            delete post.author._id
                         }
+
+                        post.likes = post.likes.map(userObjectId = userObjectId.toString())
+
+                        post.liked = post.likes.includes(userId)
+
+                        post.saved = user.saved.some(postObjectId => postObjectId.toString() === post.id)
                     })
 
                     callback(null, posts)

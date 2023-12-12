@@ -2,7 +2,7 @@ const { validateText, validateFunction } = require('./helpers/validators')
 
 const { User, Post } = require('../data/models')
 
-function retrievePosts(userId, callback) {
+function retrieveSavedPosts(userId, callback) {
     validateText(userId, 'user id')
     validateFunction(callback, 'callback')
 
@@ -14,26 +14,31 @@ function retrievePosts(userId, callback) {
                 return
             }
 
-            Post.find().select('-__v').populate('author', 'name').lean()
+            user.saved
+
+            Post.find({ _id: { $in: user.saved } }).select('-__v').populate('author', 'name').lean()
                 .then(posts => {
                     posts.forEach(post => {
                         post.id = post._id.toString()
-                        delete post.id
+                        delete post._id
 
                         if (post.author._id) {
                             post.author.id = post.author._id.toString()
                             delete post.author._id
                         }
 
-                        post.likes = post.likes(userObjectId => userObjectId.toString())
+                        post.likes = post.likes.map(userObjectId => userObjectId.toString())
 
-                        post.liked = post.likes.includes(userId)
+                        post.liked = post.saved.some(postObjectId => postObjectId.toString() === post.id)
 
                         post.saved = user.saved.some(postObjectId => postObjectId.toString() === post.id)
                     })
+
                     callback(null, posts)
                 })
+                .catch(error => callback(error))
         })
-        .catch(error => console.log(error))
+        .catch(error => callback(error))
 }
-module.exports = retrievePosts
+
+module.exports = retrieveSavedPosts

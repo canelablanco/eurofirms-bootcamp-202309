@@ -17,7 +17,7 @@ fetch('http://localhost:4000/users/auth', req)
         }
 
         res.json()
-            .then(body => console.log('user authenticated', body))
+            .then(body => console.log(res.status, body))
             .then(error => console.error(error))
     })
     .catch(error => console.error(error))

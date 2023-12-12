@@ -1,4 +1,4 @@
-const { User, Post } = require('../../api 1/data/models')
+const { User, Post } = require('../data/models')
 const { validateText, validateFunction } = require('./helpers/validators')
 
 function toggleLikePost(userId, postId, callback) {

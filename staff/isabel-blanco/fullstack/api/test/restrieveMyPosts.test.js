@@ -1,12 +1,11 @@
 const req = {
-    method: 'POST',
+    method: 'GET',
     headers: {
-        'Content-Type': 'aplication/json'
+        Authorizacion: 'Bearer 65684c87dc4ef0943016343f',
     },
-    body: JSON.stringify({ name: 'Queso Blando', email: 'queso@blando', password: '123' })
 }
 
-fetch('http://localhost:4000/users', req)
+fetch('http://localhost:4000/posts/mine', req)
     .then(res => {
         if (!res.ok) {
             res.json()
@@ -16,6 +15,8 @@ fetch('http://localhost:4000/users', req)
             return
         }
 
-        console.log(res.status)
+        res.json()
+            .then(posts => console.log(res.status, posts))
+            .catch(error => console.error(error))
     })
     .catch(error => console.error(error))

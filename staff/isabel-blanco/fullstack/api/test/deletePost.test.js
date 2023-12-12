@@ -1,12 +1,11 @@
 const req = {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'aplication/json'
-    },
-    body: JSON.stringify({ name: 'Queso Blando', email: 'queso@blando', password: '123' })
+    method: 'DELETE',
+    heather: {
+        Authorization: 'Bearer 65684c87dc4ef0943016343f'
+    }
 }
 
-fetch('http://localhost:4000/users', req)
+fetch('http://localhost:4000/posts/6571b5754fba0c76963acd33', req)
     .then(res => {
         if (!res.ok) {
             res.json()
