@@ -1,37 +1,47 @@
-import { useState } from "react"
-import retrieveSavedPosts from "../logic/retrieveSavedPosts"
-import Posts from "./Posts"
+import { useState, useEffect } from 'react'
 
+import retrieveSavedPosts from '../logic/retrieveSavedPosts'
+
+import Posts from './Posts'
 
 function SavedPosts() {
     console.log('SavedPosts')
 
-    const [timestamp, setTimestamp] = useState(null)
+    const [posts, setPosts] = useState([])
 
-    let posts = null
+    useEffect(() => {
+        refreshPosts()
+    }, [])
 
-    try {
-        posts = retrieveSavedPosts(window.sessionUserId)
-    } catch (error) {
-        alert(error.message)
-    }
     function refreshPosts() {
-        setTimestamp(Date.now())
+        try {
+            retrieveSavedPosts(sessionStorage.token, (error, posts) => {
+                if (error) {
+                    alert(error.message)
+
+                    return
+                }
+
+                setPosts(posts)
+            })
+        } catch (error) {
+            alert(error.message)
+        }
     }
 
-    function handleLikeClick() {
+    function handlePostLikeToggled() {
         refreshPosts()
     }
 
-    function handleSaveClick() {
+    function handlePostDeleted() {
         refreshPosts()
     }
 
-    function handleDeleteClick() {
+    function handlePostSaveToggled() {
         refreshPosts()
     }
 
-    return <Posts posts={posts} onLikeClick={handleLikeClick} onSaveClick={handleSaveClick} onDeleteClick={handleDeleteClick} />
+    return <Posts posts={posts} onPostLikeToggled={handlePostLikeToggled} onPostSaveToggled={handlePostSaveToggled} onPostDeleted={handlePostDeleted} />
 }
 
 export default SavedPosts

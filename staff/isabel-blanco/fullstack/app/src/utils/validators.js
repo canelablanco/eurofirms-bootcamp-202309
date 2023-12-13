@@ -22,10 +22,15 @@ function validateNumber(number, explain) {
     if (typeof number !== 'number') throw new TypeError(explain + ' is not a number')
 }
 
+function validateFunction(func, explain) {
+    if (typeof func !== 'function') throw new TypeError(explain + ' is not a function')
+}
+
 export {
     validateText,
     validateEmail,
     validatePassword,
     validateUrl,
-    validateNumber
+    validateNumber,
+    validateFunction
 }

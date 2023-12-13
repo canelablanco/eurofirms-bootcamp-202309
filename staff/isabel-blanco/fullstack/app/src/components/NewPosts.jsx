@@ -20,9 +20,15 @@ function NewPost(props) {
         const text = textInput.value
 
         try {
-            createNewPost(window.sessionUserId, image, imageDescription, text)
+            createNewPost(sessionStorage.token, image, imageDescription, text, error => {
+                if (error) {
+                    alert(error.message)
 
-            setView(null)
+                    return
+                }
+
+                props.onNewPostSubmit()
+            })
         } catch (error) {
             alert(error.message)
         }
@@ -38,10 +44,9 @@ function NewPost(props) {
         <Form onSubmit={handleNewPostSubmit}>
             <Field type="url" id="image-field" required>Image</Field>
 
-            <Field type="text" id="image-description-field" required >Image description</Field>
+            <Field type="text" id="image-description-field" required>Image description</Field>
 
-            <Field type="text" id="text-field" required >Text</Field>
-            <input />
+            <Field type="text" id="text-field" required>Text</Field>
 
             <Button type="submit">Post</Button>
             <Button onClick={handleCancelClick}>Cancel</Button>

@@ -5,12 +5,21 @@ import toggleSavePost from "../logic/toggleSavePost"
 import Button from "./Button"
 
 function Post(props) {
+    console.log('Post')
+
     const post = props.post
 
     function handleLikeClick() {
         try {
-            toggleLikePost(window.sessionUserId, post.id)
-            props.onLikeClick()
+            toggleLikePost(sessionStorage.token, post.id, error => {
+                if (error) {
+                    alert(error.message)
+
+                    return
+                }
+
+                props.onLikeToggled()
+            })
         } catch (error) {
             alert(error.message)
         }
@@ -21,9 +30,15 @@ function Post(props) {
 
         if (confirmed)
             try {
-                deletePost(sessionUserId, post.id)
+                deletePost(sessionUserId, post.id, error => {
+                    if (error) {
+                        alert(error.message)
 
-                props.onDeleteClick()
+                        return
+                    }
+
+                    props.onDeleted()
+                })
             } catch (error) {
                 alert(error.message)
             }
@@ -31,29 +46,37 @@ function Post(props) {
 
     function handleSaveClick() {
         try {
-            toggleSavePost(window.sessionUserId, post.id)
+            toggleSavePost(sessionStorage.token, post.id, error => {
+                if (error) {
+                    alert(error.message)
 
-            props.onSaveClick()
+                    return
+                }
+
+                props.onSaveToggled()
+            })
         } catch (error) {
             alert(error.message)
         }
+    }
 
-        return <article className="post">
-            <h3>{post.author.name}</h3>
+    return <article className="flex flex-col p-[.5rem] bg-[ghostwhite] hover:bg-[lightgray]">
+        <h3 className="self-start">{post.author.name}</h3>
 
-            <img className="post-image"
-                src={post.image}
-                alt={post.imageDescription}
-                title={post.imageDescription} />
+        <img className="max-w-[300px]"
+            src={post.image}
+            alt={post.imageDescription}
+            title={post.imageDescription} />
 
-            <p>{post.text}</p>
+        <p>{post.text}</p>
 
+        <div className="flex">
             <Button onClick={handleLikeClick} tile={post.liked ? 'Unlike' : 'Like'} aria-label={post.liked ? 'Unlike' : 'Like'}>{(post.liked ? '🐈' : '🐈‍⬛') + ' ' + post.likes.length + ' likes'}</Button>
 
             <Button onClick={handleSaveClick} title={post.saved ? 'Unsave' : 'Save'} aria-label={post.saved ? 'Unsave' : 'Save'}>{(post.saved ? '✨' : '🔮')}</Button>
 
             {post.author.id === window.sessionUserId ? <Button title="Delete" aria-label="Delete" onClick={handleDeleteClick}>🫧</Button> : null}
-        </article>
-    }
+        </div>
+    </article>
 }
 export default Post
