@@ -8,9 +8,9 @@ function registerUser(name, email, password, callback) {
     validatePassword(password, 'password')
     validateFunction(callback, 'callback')
 
-    User.create({ error, email, password })
+    User.create({ name, email, password })
         .then(() => callback(null))
-        .cath(error => {
+        .catch(error => {
             if (error.code === 11000) {
                 callback(new Error('user already exists'))
 

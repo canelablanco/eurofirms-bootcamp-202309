@@ -3,7 +3,7 @@ const req = {
     headers: {
         'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ email: 'queso@blando.com', password: '123' })
+    body: JSON.stringify({ email: 'queso@duro.com', password: '123' })
 }
 
 fetch('http://localhost:4000/users/auth', req)
@@ -18,6 +18,6 @@ fetch('http://localhost:4000/users/auth', req)
 
         res.json()
             .then(body => console.log(res.status, body))
-            .then(error => console.error(error))
+            .catch(error => console.error(error))
     })
     .catch(error => console.error(error))

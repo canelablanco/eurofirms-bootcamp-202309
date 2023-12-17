@@ -14,8 +14,8 @@ function Login(props) {
     function handleLoginSubmit(event) {
         event.preventDefault()
 
-        const emailInput = event.target.querySelector('#email-input')
-        const passwordInput = event.target.querySelector('#password-input')
+        const emailInput = event.target.querySelector('#email-field')
+        const passwordInput = event.target.querySelector('#password-field')
 
         const email = emailInput.value
         const password = passwordInput.value

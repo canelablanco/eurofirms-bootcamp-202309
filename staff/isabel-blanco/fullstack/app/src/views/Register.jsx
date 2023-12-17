@@ -14,18 +14,24 @@ function Register(props) {
     function handleRegisterSubmit(event) {
         event.preventDefault()
 
-        const nameInput = event.target.querySelector('#name-input')
-        const emailInput = event.target.querySelector('#email-input')
-        const passwordInput = event.target.querySelector('#password-input')
+        const nameInput = event.target.querySelector('#name-field')
+        const emailInput = event.target.querySelector('#email-field')
+        const passwordInput = event.target.querySelector('#password-field')
 
         const name = nameInput.value
         const email = emailInput.value
         const password = passwordInput.value
 
         try {
-            registerUser(name, email, password)
+            registerUser(name, email, password, error => {
+                if (error) {
+                    alert(error.message)
 
-            props.onSuccess()
+                    return
+                }
+
+                props.onSuccess()
+            })
         } catch (error) {
             alert(error.message)
         }

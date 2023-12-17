@@ -1,7 +1,7 @@
-const { validateText, validateText, validateFunction } = require('./helpers/validators')
+const { validateText, validateFunction } = require('./helpers/validators')
 const { User, Post } = require('../data/models')
 
-function deletedPost(userId, postId, callback) {
+function deletePost(userId, postId, callback) {
     validateText(userId, 'user id')
     validateText(postId, 'postId')
     validateFunction(callback, 'callback')
@@ -36,4 +36,4 @@ function deletedPost(userId, postId, callback) {
         })
         .catch(error => callback(error))
 }
-module.exports = deletedPost
+module.exports = deletePost

@@ -1,5 +1,3 @@
-const { error } = require("console")
-
 const req = {
     method: 'GET',
     heaathers: {

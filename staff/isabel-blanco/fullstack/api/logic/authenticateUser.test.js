@@ -1,11 +1,11 @@
 const mongoose = require('mongoose')
 
-const authenticateUser = require('mongodb://127.0.0.1:27017/test')
+const authenticateUser = require('./authenticateUser')
 
 mongoose.connect('mongodb://127.0.0.1:27017/test')
     .then(() => {
         try {
-            authenticateUser('Pikachu Yellow', 'pikachu@yellow.com', '123', (error, userId) => {
+            authenticateUser('pikachu@yellow.com', '123', (error, userId) => {
                 if (error) {
                     console.error(error)
 

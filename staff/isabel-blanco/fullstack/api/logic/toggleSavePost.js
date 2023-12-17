@@ -18,6 +18,8 @@ function toggleSavePost(userId, postId, callback) {
                 .then(post => {
                     if (!post) {
                         callback(new Error('post not found'))
+
+                        return
                     }
 
 
@@ -32,9 +34,7 @@ function toggleSavePost(userId, postId, callback) {
                         .then(() => callback(null))
                         .catch(error => callback(error))
                 })
-
         })
         .catch(error => callback(error))
 }
-
 module.exports = toggleSavePost
