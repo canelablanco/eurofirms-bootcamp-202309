@@ -1,10 +1,10 @@
 const { User, Post } = require('../data/models')
-const { validateText, validateFunction } = require('./helpers/validators')
+const { validate } = require('./helpers')
 
 function toggleLikePost(userId, postId, callback) {
-    validateText(userId, 'user id')
-    validateText(postId, 'post id')
-    validateFunction(callback, 'callback')
+    validate.text(userId, 'user id')
+    validate.text(postId, 'post id')
+    validate.function(callback, 'callback')
 
     User.findById(userId)
         .then(user => {

@@ -1,8 +1,4 @@
-const {
-    validateText,
-    validatePassword,
-    validateFunction,
-} = require("./helpers/validators")
+const { validate } = require('./helpers')
 
 const { User } = require("../data/models")
 
@@ -14,10 +10,10 @@ function updateUserPassword(
     callback,
 ) {
     validateText(userId, 'userId')
-    validatePassword(password, 'password')
-    validatePassword(newPassword, 'new password')
-    validatePassword(repeatNewPassword, 'repeat new password')
-    validateFunction(callback, 'callback')
+    validate.password(password, 'password')
+    validate.password(newPassword, 'new password')
+    validate.password(repeatNewPassword, 'repeat new password')
+    validate.function(callback, 'callback')
 
     if (newPassword !== repeatNewPassword)
         throw new Error("new password does not match repeat new password")
@@ -32,12 +28,6 @@ function updateUserPassword(
 
             if (user.password !== password) {
                 callback(new Error('wrong credentials'))
-
-                return
-            }
-
-            if (newPassword !== repeatNewPassword) {
-                callback(new Error('your password do not match'))
 
                 return
             }

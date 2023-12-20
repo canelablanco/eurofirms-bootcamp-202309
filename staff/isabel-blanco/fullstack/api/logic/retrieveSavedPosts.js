@@ -1,10 +1,10 @@
-const { validateText, validateFunction } = require('./helpers/validators')
+const { validate } = require('./helpers')
 
 const { User, Post } = require('../data/models')
 
 function retrieveSavedPosts(userId, callback) {
-    validateText(userId, 'user id')
-    validateFunction(callback, 'callback')
+    validate.text(userId, 'user id')
+    validate.function(callback, 'callback')
 
     User.findById(userId)
         .then(user => {
@@ -29,7 +29,7 @@ function retrieveSavedPosts(userId, callback) {
 
                         post.likes = post.likes.map(userObjectId => userObjectId.toString())
 
-                        post.liked = post.saved.some(postObjectId => postObjectId.toString() === post.id)
+                        post.liked = post.likes.includes(userId)
 
                         post.saved = user.saved.some(postObjectId => postObjectId.toString() === post.id)
                     })
