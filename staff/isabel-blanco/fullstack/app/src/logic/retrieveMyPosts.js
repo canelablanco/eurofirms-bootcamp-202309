@@ -1,17 +1,19 @@
-import { validateText } from "../utils/validators"
+import { validate } from ('./helpers')
 
-function retrieveMyPosts(userId) {
-    validateText(userId, 'user id')
-    validateFunction(callback, 'callback')
+import context from './context'
+
+function retrieveMyPosts(callback) {
+    validate.function(callback, 'callback')
+    validate.jwt(context.jwt)
 
     const req = {
         method: 'GET',
         headers: {
-            Autorization: `Bearer ${userId}`,
+            Autorization: `Bearer ${context.storage.token}`,
         },
     }
 
-    fetch('http://localhost:4000/posts/mine', req)
+    fetch(`${import.meta.env.VITE_API_URL}/posts/mine`, req)
         .then(res => {
             if (!res.ok) {
                 res.json()

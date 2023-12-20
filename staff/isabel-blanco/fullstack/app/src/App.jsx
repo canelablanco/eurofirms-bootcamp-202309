@@ -1,32 +1,63 @@
-import Login from "/views/Login"
-import React from "react"
-import Register from "./views/Register"
-import Home from "./views/Home"
+import { useState } from "react"
+import { Routes, Route, useNavigate, Navigate } from 'react-router-dom'
 
-function App() {
+import Feedback from './helpers/Feedback'
+
+import Login from "/pages/Login"
+import Register from "./pages/Register"
+import Home from "./pages/Home"
+
+import Hello from './components/Hello'
+
+import logic from './logic'
+import { JWTError } from './logic/errors'
+
+export default function App() {
   console.log('App')
 
-  const [view, setView] = React.useState(sessionStorage.token ? 'home' : 'login')
+  const [feedback, setFeedback] = useState(null)
+  const navigate = useNavigate()
 
   function handleRegisterShow() {
-    setView('register')
+    navigate('register')
+    setFeedback(null)
   }
 
   function handleLoginShow() {
-    setView('login')
+    navigate('login')
+    setFeedback(null)
   }
 
   function handleHomeShow() {
-    setView('home')
+    navigate('/')
+    setFeedback(null)
+  }
+
+  function handleError() {
+    if (error instanceof JWTError) {
+      logic.logoutUser()
+
+      navigate('./login')
+      setFeedback('Session expired, please login again')
+    } else setFeedback(error.message)
+
+  }
+
+  function handleAcceptFeedback() {
+    setFeedback(null)
   }
 
   return <>
-    {view === 'login' ? <Login onSuccess={handleHomeShow} onRegisterClick={handleRegisterShow} /> : null}
+    <Routes>
+      <Route path="/login" element={logic.isUserLoggedIn() ? <Navigate to="/" /> : <Login onSuccess={handleHomeShow} onRegisterClick={handleRegisterShow} onError={handleError} />} />
 
-    {view === 'register' ? <Register onSuccess={handleLoginShow} onLoginClick={handleLoginShow} /> : null}
+      <Route path="/register" element={logic.isUserLoggedIn() ? <Navigate to="/" /> : <Register onSuccess={handleLoginShow} onLoginClick={handleLoginShow} onError={handleError} />} />
 
-    {view === 'home' ? <Home onLogout={handleLoginShow} /> : null}
+      <Route path="/*" element={logic.isUserLoggedIn() ? <Home onLogout={handleLoginShow} onError={handleError} /> : <Navigate to="/login" />} />
+
+      <Route path="/hello/:name" element={<Hello />} />
+    </Routes>
+
+    {feedback ? <Feedback message={feedback} onAccept={handleAcceptFeedback} /> : null}
   </>
 }
-
-export default App

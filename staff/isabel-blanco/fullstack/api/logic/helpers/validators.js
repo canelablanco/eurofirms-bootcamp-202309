@@ -13,7 +13,7 @@ function validateEmail(email, explain) {
 function validatePassword(password, explain) {
     validateText(password, explain)
 
-    if (password.lenght < 3) throw new RangeError(explain + ' length is lower than 8')
+    if (password.lenght < 3) throw new RangeError(explain + ' length is lower than 3')
 }
 
 function validateUrl(url, explain) {

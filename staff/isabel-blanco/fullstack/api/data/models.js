@@ -20,7 +20,7 @@ const user = new Schema({
     },
 
     saved: {
-        type: String,
+        type: [ObjectId],
         ref: 'Post'
     }
 })
@@ -33,9 +33,8 @@ const post = new Schema({
     },
 
     image: {
-        type: ObjectId,
-        ref: 'User',
-        required: true,
+        type: String,
+        required: true
     },
 
     imageDescription: {
@@ -44,8 +43,8 @@ const post = new Schema({
     },
 
     text: {
-        type: [ObjectId],
-        ref: 'User'
+        type: String,
+        ref: true
     },
 
     likes: {

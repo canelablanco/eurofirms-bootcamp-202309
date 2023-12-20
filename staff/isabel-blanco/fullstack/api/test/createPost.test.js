@@ -1,10 +1,10 @@
 const req = {
     method: 'POST',
-    heather: {
-        Authorizacion: 'Bearer 656db3fad816cd234ffab874',
-        'Content-type': 'application/json'
+    headers: {
+        Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTdjNjFjM2U5NDBlMjM0NGFhN2JmMDQiLCJpYXQiOjE3MDI5MDYzOTcsImV4cCI6MTcwMjk0MjM5N30.MJu_kyeJ6_hQwBCdwjyd1_vT58fl6Yq40TAPSicDEoU',
+        'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ image: 'https://cdn11.bigcommerce.com/s-hfy8688lak/images/stencil/1280x1280/products/2244/11162/707a1ae8aaf0ece78bc707ab234b317f__25190.1676306714.jpg?c=1', imageDescription: 'chocobo and the airship', text: 'my videogame' })
+    body: JSON.stringify({ image: 'https://i.etsystatic.com/6736785/r/il/7a8abe/998879910/il_570xN.998879910_sncv.jpg', imageDescription: 'chocobo', text: 'my videogame' })
 }
 
 fetch('http://localhost:4000/posts', req)

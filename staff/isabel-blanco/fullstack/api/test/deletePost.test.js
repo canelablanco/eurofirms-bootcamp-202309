@@ -1,7 +1,7 @@
 const req = {
     method: 'DELETE',
     heather: {
-        Authorization: 'Bearer 65684c87dc4ef0943016343f'
+        Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI2NTdjNjFjM2U5NDBlMjM0NGFhN2JmMDQiLCJpYXQiOjE3MDI5MDY1NTUsImV4cCI6MTcwMjk0MjU1NX0.C0cSO38rN4_E5WllSWujE9xEJNhZIcmju6Me3p_LEgI'
     }
 }
 

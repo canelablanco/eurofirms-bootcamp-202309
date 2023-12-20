@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react'
 
-import retrieveSavedPosts from '../logic/retrieveSavedPosts'
+import logic from '../logic'
 
-import Posts from './Posts'
-
-function SavedPosts() {
+export default function SavedPosts(props) {
     console.log('SavedPosts')
 
     const [posts, setPosts] = useState([])
@@ -15,9 +13,9 @@ function SavedPosts() {
 
     function refreshPosts() {
         try {
-            retrieveSavedPosts(sessionStorage.token, (error, posts) => {
+            logic.restrieveSavedPosts((error, posts) => {
                 if (error) {
-                    alert(error.message)
+                    props.onError(error)
 
                     return
                 }
@@ -25,7 +23,7 @@ function SavedPosts() {
                 setPosts(posts)
             })
         } catch (error) {
-            alert(error.message)
+            props.onError(error)
         }
     }
 
@@ -41,7 +39,5 @@ function SavedPosts() {
         refreshPosts()
     }
 
-    return <Posts posts={posts} onPostLikeToggled={handlePostLikeToggled} onPostSaveToggled={handlePostSaveToggled} onPostDeleted={handlePostDeleted} />
+    return <Posts posts={posts} onPostLikeToggled={handlePostLikeToggled} onPostSaveToggled={handlePostSaveToggled} onPostDeleted={handlePostDeleted} onError={props.onError} />
 }
-
-export default SavedPosts

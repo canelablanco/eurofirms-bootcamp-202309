@@ -1,18 +1,19 @@
-import { validateText } from "../utils/validators"
-import db from "../data/managers"
+import { validate } from './helpers'
+import context from "./context"
 
-function toggleLikePost(userId, postId) {
-    validateText(userId, 'user id')
-    validateText(postId, 'post id')
+function toggleLikePost(postId, callback) {
+    validate.text(postId, 'post id')
+    validate.function(callback, 'callback')
+    validate.jwt(context.jwt)
 
     const req = {
         method: 'PATCH',
         headers: {
-            Authorizacion: `Bearer ${userId}`
+            Authorization: `Bearer ${context.storage.token}`
         }
     }
 
-    fetch(`http://localhost:4000/posts/${postId}/likes`, req)
+    fetch(`${import.meta.env.VITE_API_URL}/posts/${postId}/likes`, req)
         .then(res => {
             if (res.ok) {
                 req.json()

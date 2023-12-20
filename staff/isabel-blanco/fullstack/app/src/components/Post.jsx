@@ -1,8 +1,6 @@
-import toggleLikePost from "../logic/toggleLikePost"
-import deletePost from "../logic/deletePost"
-import toggleSavePost from "../logic/toggleSavePost"
+import Button from "../library/Button"
 
-import Button from "./Button"
+import logic from '../logic'
 
 function Post(props) {
     console.log('Post')
@@ -11,9 +9,9 @@ function Post(props) {
 
     function handleLikeClick() {
         try {
-            toggleLikePost(sessionStorage.token, post.id, error => {
+            logic.toggleLikePost(post.id, error => {
                 if (error) {
-                    alert(error.message)
+                    props.onError(error)
 
                     return
                 }
@@ -21,7 +19,7 @@ function Post(props) {
                 props.onLikeToggled()
             })
         } catch (error) {
-            alert(error.message)
+            props.onError(error)
         }
     }
 
@@ -30,9 +28,9 @@ function Post(props) {
 
         if (confirmed)
             try {
-                deletePost(sessionUserId, post.id, error => {
+                deletePost(post.id, error => {
                     if (error) {
-                        alert(error.message)
+                        props.onError(error)
 
                         return
                     }
@@ -40,15 +38,15 @@ function Post(props) {
                     props.onDeleted()
                 })
             } catch (error) {
-                alert(error.message)
+                props.onError(error)
             }
     }
 
     function handleSaveClick() {
         try {
-            toggleSavePost(sessionStorage.token, post.id, error => {
+            toggleSavePost(post.id, error => {
                 if (error) {
-                    alert(error.message)
+                    props.onError(error)
 
                     return
                 }
@@ -56,7 +54,7 @@ function Post(props) {
                 props.onSaveToggled()
             })
         } catch (error) {
-            alert(error.message)
+            props.onError(error)
         }
     }
 
@@ -71,12 +69,13 @@ function Post(props) {
         <p>{post.text}</p>
 
         <div className="flex">
-            <Button onClick={handleLikeClick} tile={post.liked ? 'Unlike' : 'Like'} aria-label={post.liked ? 'Unlike' : 'Like'}>{(post.liked ? '🐈' : '🐈‍⬛') + ' ' + post.likes.length + ' likes'}</Button>
+            <Button onClick={handleLikeClick} title={post.liked ? 'Unlike' : 'Like'} aria-label={post.liked ? 'Unlike' : 'Like'}>{(post.liked ? '🐈' : '🐈‍⬛') + ' ' + post.likes.length + ' likes'}</Button>
 
-            <Button onClick={handleSaveClick} title={post.saved ? 'Unsave' : 'Save'} aria-label={post.saved ? 'Unsave' : 'Save'}>{(post.saved ? '✨' : '🔮')}</Button>
+            <Button onClick={handleSaveClick} title={post.saved ? 'Unsave' : 'sSave'} aria-label={post.saved ? 'Unsave' : 'Save'}>{(post.saved ? '✨' : '🔮')}</Button>
 
-            {post.author.id === window.sessionUserId ? <Button title="Delete" aria-label="Delete" onClick={handleDeleteClick}>🫧</Button> : null}
+            {post.author.id === getLoggedInUserId() ? <Button title="Delete" aria-label="Delete" onClick={handleDeleteClick}>🗑️</Button> : null}
         </div>
     </article>
 }
+
 export default Post

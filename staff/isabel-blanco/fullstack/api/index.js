@@ -1,5 +1,6 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const jwt = require('jsonwebtoken')
 
 const registerUser = require('./logic/registerUser')
 const authenticateUser = require('./logic/authenticateUser')
@@ -70,7 +71,9 @@ mongoose.connect('mongodb://127.0.0.1/api')
                         return
                     }
 
-                    res.json(userId)
+                    const token = jwt.sign({ sub: userId }, 'el cielo es rosa', { expiresIn: '10h' })
+
+                    res.json(token)
                 })
             } catch (error) {
                 res.status(400).json({ error: error.message })
@@ -78,9 +81,12 @@ mongoose.connect('mongodb://127.0.0.1/api')
         })
 
         api.get('/users', (req, res) => {
-            const userId = req.header.authorization.slice(7)
 
             try {
+                const token = req.header.authorization.slice(7)
+
+                const { sub: userId } = jwt.verify(token, 'el cielo es rosa')
+
                 retrieveUser(userId, (error, user) => {
                     if (error) {
                         res.status(400).json({ error: error.message })
@@ -96,11 +102,13 @@ mongoose.connect('mongodb://127.0.0.1/api')
         })
 
         api.post('/posts', jsonBodyParser, (req, res) => {
-            const userId = req.header.authorization.slice(7)
-            const body = req.body
-            const { image, imageDescription, text } = body
-
             try {
+                const token = req.headers.authorization.slice(7)
+
+                const { sub: userId } = jwt.verify(token, 'el cielo es rosa')
+
+                const { image, imageDescription, text } = req.body
+
                 createPost(userId, image, imageDescription, text, error => {
                     if (error) {
                         res.status(400).json({ error: error.message })
@@ -116,9 +124,12 @@ mongoose.connect('mongodb://127.0.0.1/api')
         })
 
         api.get('/posts', (req, res) => {
-            const userId = req.headers.authorization.slice(7)
 
             try {
+                const token = req.headers.authorization.slice(7)
+
+                const { sub: userId } = jwt.verify(token, 'el cielo es rosa')
+
                 retrievePosts(userId, (error, posts) => {
                     if (error) {
                         res.status(400).json({ error: error.message })
@@ -133,38 +144,20 @@ mongoose.connect('mongodb://127.0.0.1/api')
             }
         })
 
-        api.patch('/posts/:postId/likes', (req, res) => {
-            const userId = req.headers.authorization.slice(7)
-            const postId = req.params.postId
-
+        api.get('/posts/saved', (req, res) => {
             try {
-                toggleLikePost(userId, postId, error => {
+                const token = req.headers.authorization.slice(7)
+
+                const { sub: userId } = jwt.verify(token, 'el cielo es rosa')
+
+                retrieveSavedPosts(userId, (error, posts) => {
                     if (error) {
                         res.status(400).json({ error: error.message })
 
                         return
                     }
 
-                    res.status(204).send()
-                })
-            } catch (error) {
-                res.status(400).json({ error: error.message })
-            }
-        })
-
-        api.patch('/posts/:postId/saves', (req, res) => {
-            const userId = req.headers.authorization.slice(7)
-            const postId = req.params.postId
-
-            try {
-                toggleSavePost(userId, postId, error => {
-                    if (error) {
-                        res.status(400).json({ error: error.message })
-
-                        return
-                    }
-
-                    res.status(204).send()
+                    res.json(posts)
                 })
             } catch (error) {
                 res.status(400).json({ error: error.message })
@@ -175,7 +168,7 @@ mongoose.connect('mongodb://127.0.0.1/api')
             try {
                 const token = req.headers.authorization.slice(7)
 
-                const { sub: userId } = jwt.verify(token, 'es posible que pronto sea abuelo')
+                const { sub: userId } = jwt.verify(token, 'el cielo es rosa')
 
                 retrieveMyPosts(userId, (error, posts) => {
                     if (error) {
@@ -191,13 +184,103 @@ mongoose.connect('mongodb://127.0.0.1/api')
             }
         })
 
-        api.path('/users/password', jsonBodyParser, (req, res) => {
-            const userId = req.headers.authorization.slice(7)
-
-            const body = req.body
-            const { password, newPassword, repeatNewPassword } = body
-
+        api.patch('/posts/:postId/likes', (req, res) => {
             try {
+                const token = req.headers.authorization.slice(7)
+
+                const { sub: userId } = jwt.verify(token, 'el cielo es rosa')
+
+                const postId = req.params.postId
+
+                toggleLikePost(userId, postId, error => {
+                    if (error) {
+                        res.status(400).json({ error: error.message })
+
+                        return
+                    }
+
+                    res.status(204).send()
+                })
+            } catch (error) {
+                res.status(400).json({ error: error.message })
+            }
+        })
+
+        api.patch('/posts/:postId/likes', (req, res) => {
+            try {
+                const token = req.headers.authorization.slice(7)
+
+                const { sub: userId } = jwt.verify(token, 'el cielo es rosa')
+
+                const postId = req.params.postId
+
+                toggleLikePost(userId, postId, error => {
+                    if (error) {
+                        res.status(400).json({ error: error.message })
+
+                        return
+                    }
+
+                    res.status(204).send()
+                })
+            } catch (error) {
+                res.status(400).json({ error: error.message })
+            }
+        })
+
+        api.patch('/posts/:postId/saves', (req, res) => {
+            try {
+                const token = req.headers.authorization.slice(7)
+
+                const { sub: userId } = jwt.verify(token, 'el cielo es rosa')
+
+                const postId = req.params.postId
+
+                toggleSavePost(userId, postId, error => {
+                    if (error) {
+                        res.status(400).json({ error: error.message })
+
+                        return
+                    }
+
+                    res.status(204).send()
+                })
+            } catch (error) {
+                res.status(400).json({ error: error.message })
+            }
+        })
+
+        api.delete('/posts/:postId', (req, res) => {
+            try {
+                const token = req.headers.authorization.slice(7)
+
+                const { sub: userId } = jwt.verify(token, 'el cielo es rosa')
+
+                const postId = req.params.postId
+
+                deletePost(userId, postId, error => {
+                    if (error) {
+                        res.status(400).json({ error: error.message })
+
+                        return
+                    }
+
+                    res.status(204).send()
+                })
+            } catch (error) {
+                res.status(400).json({ error: error.message })
+            }
+        })
+
+
+        api.path('/users/password', jsonBodyParser, (req, res) => {
+            try {
+                const token = req.headers.authorization.slice(7)
+
+                const { sub: userId } = jwt.verify(token, 'el cielo es rosa')
+
+                const { password, newPassword, repeatNewPassword } = req.body
+
                 updateUserPassword(userId, password, newPassword, repeatNewPassword, error => {
                     if (error) {
                         res.status(400).json({ error: error.message })

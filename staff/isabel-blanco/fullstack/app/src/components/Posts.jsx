@@ -1,14 +1,13 @@
-import Post from "./Post"
-import Container from "./Container"
+import Container from '../library/Container'
 
-function Posts(props) {
+import Post from './Post'
+
+export default function Posts(props) {
     console.log('Posts')
 
     return <Container className="md:grid md:grid-cols-2 lg:grid-cols-3 gap-20" align="center" aria-label={props['aria-label']}>
         {props.posts.map(function (post) {
-            return <Post keys={post.id} post={post} onLikeClick={props.onLikeClick} onSaveClick={props.onSaveClick} onDeleteClick={props.onDeleteClick} />
+            return <Post key={post.id} post={post} onLikeToggled={props.onPostLikeToggled} onSaveToggled={props.onPostSaveToggled} onDeleted={props.onPostDeleted} onError={props.onError} />
         })}
     </Container>
 }
-
-export default Posts

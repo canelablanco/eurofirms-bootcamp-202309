@@ -1,14 +1,15 @@
-import { validateText, validateFunction } from "../utils/validators"
+import validate from './validate'
+import context from './context'
 
-function deletePost(userId, postId) {
-    validateText(userId, 'user id')
-    validateText(postId, 'post id')
-    validateFunction(callback, 'callback')
+function deletePost(userId, callback) {
+    validate.text(postId, 'post id')
+    validate.funktion(callback, 'callback')
+    validate.jwt(context.jwt)
 
     const req = {
         method: 'DELETE',
         headers: {
-            Authorización: `Bearer ${userId}`
+            Authorization: `Bearer ${context.storage.token}`,
         }
     }
 

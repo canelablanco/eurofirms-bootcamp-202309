@@ -1,18 +1,19 @@
-import { validateText, validateFunction } from "../utils/validators"
+import { validate } from './helpers'
+import context from './context'
 
-function toggleSavePost(userId, postId) {
-    validateText(userId, 'user id')
-    validateText(postId, 'post id')
-    validateFunction(callback, 'callback')
+function toggleSavePost(userId, callback) {
+    validate.text(postId, 'post id')
+    validate.function(callback, 'callback')
+    validate.jwt(contact.jwt)
 
     const req = {
         method: 'PATCH',
         headers: {
-            Autorization: `Bearer ${userId}`
+            Autorization: `Bearer ${contact.storage.token}`
         }
     }
 
-    fetch(`http://localhost:4000/posts/${postId}/saved`, req)
+    fetch(`${import.meta.env.VITE_API_URL}/posts/${postId}/saved`, req)
         .then(res => {
             if (!res.ok) {
                 res.json()
