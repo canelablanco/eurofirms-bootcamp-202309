@@ -2,6 +2,8 @@ const { validate } = require('./helpers')
 
 const { User, Post } = require('../data/models')
 
+const { NotFoundError, SystemError } = require('./errors')
+
 function retrieveMyPosts(userId, callback) {
     validate.text(userId, 'user id')
     validate.function(callback, 'callback')
@@ -9,7 +11,7 @@ function retrieveMyPosts(userId, callback) {
     User.findById(userId)
         .then(user => {
             if (!user) {
-                callback(new Error('User not found'))
+                callback(new NotFoundError('User not found'))
 
                 return
             }

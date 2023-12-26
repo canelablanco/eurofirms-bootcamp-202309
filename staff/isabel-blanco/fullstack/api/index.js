@@ -1,18 +1,15 @@
+require('dotenv').config()
+
 const express = require('express')
 const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
 
-const registerUser = require('./logic/registerUser')
-const authenticateUser = require('./logic/authenticateUser')
-const retrieveUser = require('./logic/retrieveUser')
-const createPost = require('./logic/createPost')
-const retrievePosts = require('./logic/retrievePosts')
-const toggleLikePost = require('./logic/toggleLikePost')
-const updateUserPassword = require('./logic/updateUserPassword')
-const toggleSavePost = require('./logic/toggleSavePost')
-const deletePost = require('./logic/deletePost')
-const retrieveSavedPosts = require('./logic/retrieveSavedPosts')
-const retrieveMyPosts = require('./logic/retrieveMyPosts')
+const { cors } = require('./utils')
+
+const logic = require('./logic')
+const { ContentError, DuplicityError, NotFoundError, CredentialsError, ClearanceError } = require('./logic/errors')
+
+mongoose.connect(process.env.MONGODB_URL)
 
 mongoose.connect('mongodb://127.0.0.1/api')
     .then(() => {
@@ -30,23 +27,20 @@ mongoose.connect('mongodb://127.0.0.1/api')
 
         const jsonBodyParser = express.json()
 
-        const cors = (req, res, next) => {
-            res.header('Access-Control-Allow-Origin', '*')
-            res.header('Access-Control-Allow-Methods', '*')
-            res.header('Access-Control-Allow-Headers', '*')
-
-            next()
-        }
-
-        api.use('*', cors)
+        api.use(cors)
 
         api.post('/users', cors, jsonBodyParser, (req, res) => {
             try {
                 const { name, email, password } = req.body
 
-                registerUser(name, email, password, error => {
+                logic.registerUser(name, email, password, error => {
                     if (error) {
-                        res.status(400).json({ error: error.message })
+                        let status = 500
+
+                        if (error instanceof DuplicityError)
+                            status = 409
+
+                        res.status(status).json({ error: error.constructor.name, message: error.message })
 
                         return
                     }
@@ -56,7 +50,11 @@ mongoose.connect('mongodb://127.0.0.1/api')
                 })
 
             } catch (error) {
-                res.status(400).json({ error: error.message })
+                let status = 500
+
+                if (error instanceof TypeError || error instanceof ContentError || error instanceof RangeError)
+                    status = 406
+                res.status(status).json({ error: error.constructor.name, message: error.message })
             }
         })
 
@@ -64,19 +62,30 @@ mongoose.connect('mongodb://127.0.0.1/api')
             try {
                 const { email, password } = req.body
 
-                authenticateUser(email, password, (error, userId) => {
+                logic.authenticateUser(email, password, (error, userId) => {
                     if (error) {
-                        res.status(400).json({ error: error.message })
+                        let status = 500
+                        if (error instanceof NotFoundError)
+                            status = 404
+                        else if (error instanceof CredentialsError)
+                            status = 401
+
+                        res.status(status).json({ error: error.message })
 
                         return
                     }
 
-                    const token = jwt.sign({ sub: userId }, 'el cielo es rosa', { expiresIn: '10h' })
+                    const token = jwt.sign({ sub: userId }, process.env.JWT_SECRET, { expiresIn: '10h' })
 
                     res.json(token)
                 })
             } catch (error) {
-                res.status(400).json({ error: error.message })
+                let status = 500
+
+                if (error instanceof TypeError || error instanceof ContentError || error instanceof RangeError)
+                    status = 406
+
+                res.status(400).json({ error: error.constructor.name, message: error.message })
             }
         })
 
@@ -85,11 +94,16 @@ mongoose.connect('mongodb://127.0.0.1/api')
             try {
                 const token = req.header.authorization.slice(7)
 
-                const { sub: userId } = jwt.verify(token, 'el cielo es rosa')
+                const { sub: userId } = jwt.verify(token, process.env.JWT_SECRET)
 
-                retrieveUser(userId, (error, user) => {
+                logic.retrieveUser(userId, (error, user) => {
                     if (error) {
-                        res.status(400).json({ error: error.message })
+                        let status = 500
+
+                        if (error instanceof NotFoundError)
+                            status = 404
+
+                        res.status(status).json({ error: error.constructor.name, message: error.message })
 
                         return
                     }
@@ -97,7 +111,14 @@ mongoose.connect('mongodb://127.0.0.1/api')
                     res.json(user)
                 })
             } catch (error) {
-                res.status(400).json({ error: error.message })
+                let status = 500
+
+                if (error instanceof Type || error instanceof ContentError)
+                    status = 406
+                else if (error instanceof jwt.JsonWebTokenError)
+                    status = 401
+
+                res.status(status).json({ error: error.constructor.name, message: error.message })
             }
         })
 
@@ -105,13 +126,18 @@ mongoose.connect('mongodb://127.0.0.1/api')
             try {
                 const token = req.headers.authorization.slice(7)
 
-                const { sub: userId } = jwt.verify(token, 'el cielo es rosa')
+                const { sub: userId } = jwt.verify(token, process.env.JWT_SECRET)
 
                 const { image, imageDescription, text } = req.body
 
-                createPost(userId, image, imageDescription, text, error => {
+                logic.createPost(userId, image, imageDescription, text, error => {
                     if (error) {
-                        res.status(400).json({ error: error.message })
+                        let status = 500
+
+                        if (error instanceof NotFoundError)
+                            status = 404
+
+                        res.status(status).json({ error: error.constructor.name, message: error.message })
 
                         return
                     }
@@ -119,7 +145,13 @@ mongoose.connect('mongodb://127.0.0.1/api')
                     res.status(201).send()
                 })
             } catch (error) {
-                res.status(400).json({ error: error.message })
+                let status = 500
+
+                if (error instanceof TypeError || error instanceof ContentError)
+                    status = 406
+                else if (error instanceof jwt.JsonWebTokenError)
+                    status = 401
+                res.status(status).json({ error: error.constructor.name, message: error.message })
             }
         })
 
@@ -130,17 +162,28 @@ mongoose.connect('mongodb://127.0.0.1/api')
 
                 const { sub: userId } = jwt.verify(token, 'el cielo es rosa')
 
-                retrievePosts(userId, (error, posts) => {
+                logic.retrievePosts(userId, (error, posts) => {
                     if (error) {
-                        res.status(400).json({ error: error.message })
+                        let status = 500
 
+                        if (error instanceof NotFoundError)
+                            status = 404
+
+                        res.status(status).json({ error: error.constructor.name, message: error.message })
                         return
                     }
 
                     res.json(posts)
                 })
             } catch (error) {
-                res.status(400).json({ error: error.message })
+                let status = 500
+
+                if (error instanceof TypeError || error instanceof ContentError)
+                    status = 406
+                else if (error instanceof jwt.JsonWebTokenError)
+                    status = 401
+
+                res.status(400).json({ error: error.constructor.name, message: error.message })
             }
         })
 
@@ -150,9 +193,14 @@ mongoose.connect('mongodb://127.0.0.1/api')
 
                 const { sub: userId } = jwt.verify(token, 'el cielo es rosa')
 
-                retrieveSavedPosts(userId, (error, posts) => {
+                logic.retrieveSavedPosts(userId, (error, posts) => {
                     if (error) {
-                        res.status(400).json({ error: error.message })
+                        let status = 500
+
+                        if (error instanceof NotFoundError)
+                            status = 404
+
+                        res.status(status).json({ error: error.constructor.name, message: error.message })
 
                         return
                     }
@@ -160,7 +208,14 @@ mongoose.connect('mongodb://127.0.0.1/api')
                     res.json(posts)
                 })
             } catch (error) {
-                res.status(400).json({ error: error.message })
+                let status = 500
+
+                if (error instanceof TypeError || error instanceof ContentError)
+                    status = 406
+                else if (error instanceof jwt.JsonWebTokenError)
+                    status = 401
+
+                res.status(status).json({ error: error.constructor.name, message: error.message })
             }
         })
 
@@ -168,11 +223,16 @@ mongoose.connect('mongodb://127.0.0.1/api')
             try {
                 const token = req.headers.authorization.slice(7)
 
-                const { sub: userId } = jwt.verify(token, 'el cielo es rosa')
+                const { sub: userId } = jwt.verify(token, process.env.JWT_SECRET)
 
-                retrieveMyPosts(userId, (error, posts) => {
+                logic.retrieveMyPosts(userId, (error, posts) => {
                     if (error) {
-                        res.status(400).json({ error: error.message })
+                        let status = 500
+
+                        if (error instanceof NotFoundError)
+                            status = 404
+
+                        res.status(status).json({ error: error.constructor.name, message: error.message })
 
                         return
                     }
@@ -180,7 +240,14 @@ mongoose.connect('mongodb://127.0.0.1/api')
                     res.json(posts)
                 })
             } catch (error) {
-                res.status(400).json({ error: error.message })
+                let status = 500
+
+                if (error instanceof TypeError || error instanceof ContentError)
+                    status = 406
+                else if (error instanceof jwt.JsonWebTokenError)
+                    status = 401
+
+                res.status(status).json({ error: error.constructor.name, message: error.message })
             }
         })
 
@@ -192,9 +259,14 @@ mongoose.connect('mongodb://127.0.0.1/api')
 
                 const postId = req.params.postId
 
-                toggleLikePost(userId, postId, error => {
+                logic.toggleLikePost(userId, postId, error => {
                     if (error) {
-                        res.status(400).json({ error: error.message })
+                        let status = 500
+
+                        if (error instanceof NotFoundError)
+                            status = 404
+
+                        res.status(status).json({ error: error.constructor.name, message: error.message })
 
                         return
                     }
@@ -202,7 +274,14 @@ mongoose.connect('mongodb://127.0.0.1/api')
                     res.status(204).send()
                 })
             } catch (error) {
-                res.status(400).json({ error: error.message })
+                let status = 500
+
+                if (error instanceof TypeError || error instanceof ContentError)
+                    status = 406
+                else if (error instanceof jwt.JsonWebTokenError)
+                    status = 401
+
+                res.status(status).json({ error: error.constructor.name, message: error.message })
             }
         })
 
@@ -214,9 +293,14 @@ mongoose.connect('mongodb://127.0.0.1/api')
 
                 const postId = req.params.postId
 
-                toggleLikePost(userId, postId, error => {
+                logic.toggleLikePost(userId, postId, error => {
                     if (error) {
-                        res.status(400).json({ error: error.message })
+                        let status = 500
+
+                        if (error instanceof NotFoundError)
+                            status = 404
+
+                        res.status(400).json({ error: error.constructor.name, message: error.message })
 
                         return
                     }
@@ -224,7 +308,13 @@ mongoose.connect('mongodb://127.0.0.1/api')
                     res.status(204).send()
                 })
             } catch (error) {
-                res.status(400).json({ error: error.message })
+                let status = 500
+
+                if (error instanceof TypeError || error instanceof ContentError)
+                    status = 406
+                else if (error instanceof jwt.JsonWebTokenError)
+                    status = 401
+                res.status(400).json({ error: error.constructor.error, message: error.message })
             }
         })
 
@@ -232,13 +322,18 @@ mongoose.connect('mongodb://127.0.0.1/api')
             try {
                 const token = req.headers.authorization.slice(7)
 
-                const { sub: userId } = jwt.verify(token, 'el cielo es rosa')
+                const { sub: userId } = jwt.verify(token, process.env.JWT_SECRET)
 
                 const postId = req.params.postId
 
-                toggleSavePost(userId, postId, error => {
+                logic.toggleSavePost(userId, postId, error => {
                     if (error) {
-                        res.status(400).json({ error: error.message })
+                        let status = 500
+
+                        if (error instanceof NotFoundError)
+                            status = 404
+
+                        res.status(status).json({ error: error.constructor.name, message: error.message })
 
                         return
                     }
@@ -246,7 +341,14 @@ mongoose.connect('mongodb://127.0.0.1/api')
                     res.status(204).send()
                 })
             } catch (error) {
-                res.status(400).json({ error: error.message })
+                let status = 500
+
+                if (error instanceof TypeError || error instanceof ContentError)
+                    status = 406
+                else if (error instanceof jwt.JsonWebTokenError)
+                    status = 401
+
+                res.status(status).json({ error: error.constructor.name, message: error.message })
             }
         })
 
@@ -258,9 +360,16 @@ mongoose.connect('mongodb://127.0.0.1/api')
 
                 const postId = req.params.postId
 
-                deletePost(userId, postId, error => {
+                logic.deletePost(userId, postId, error => {
                     if (error) {
-                        res.status(400).json({ error: error.message })
+                        let status = 500
+
+                        if (error instanceof NotFoundError)
+                            status = 404
+                        else if (error instanceof ClearanceError)
+                            status = 403
+
+                        res.status(status).json({ error: error.constructor.name, message: error.message })
 
                         return
                     }
@@ -268,7 +377,14 @@ mongoose.connect('mongodb://127.0.0.1/api')
                     res.status(204).send()
                 })
             } catch (error) {
-                res.status(400).json({ error: error.message })
+                let status = 500
+
+                if (error instanceof TypeError || error instanceof ContentError)
+                    status = 406
+                else if (error instanceof jwt.JsonWebTokenError)
+                    status = 401
+
+                res.status(status).json({ error: error.constructor.error, message: error.message })
             }
         })
 
@@ -281,9 +397,16 @@ mongoose.connect('mongodb://127.0.0.1/api')
 
                 const { password, newPassword, repeatNewPassword } = req.body
 
-                updateUserPassword(userId, password, newPassword, repeatNewPassword, error => {
+                logic.updateUserPassword(userId, password, newPassword, repeatNewPassword, error => {
                     if (error) {
-                        res.status(400).json({ error: error.message })
+                        let status = 500
+
+                        if (error instanceof NotFoundError)
+                            status = 404
+                        else if (error instanceof CredentialsError)
+                            status = 401
+
+                        res.status(status).json({ error: error.constructor.name, message: error.message })
 
                         return
                     }
@@ -291,9 +414,16 @@ mongoose.connect('mongodb://127.0.0.1/api')
                     res.status(204).send()
                 })
             } catch (error) {
-                res.status(400).json({ error: error.message })
+                let status = 500
+
+                if (error instanceof TypeError || error instanceof ContentError || error instanceof RangeError)
+                    status = 406
+                else if (error instanceof jwt.JsonWebTokenError)
+                    status = 401
+
+                res.status(status).json({ error: error.constructor.name, message: error.message })
             }
         })
 
-        api.listen(4000, () => console.log('API listening on port 4000'))
+        api.listen(process.env.PORT, () => console.log('API listening on port ${process.env.PORT}'))
     })

@@ -1,6 +1,8 @@
 const { validate } = require('./helpers')
 const { User, Post } = require('../data/models')
 
+const { NotFoundError, SystemError } = require('./errors')
+
 function createPost(userId, image, imageDescription, text, callback) {
     validate.text(userId, 'user id')
     validate.text(image, 'image')
@@ -11,7 +13,7 @@ function createPost(userId, image, imageDescription, text, callback) {
     User.findById(userId)
         .then(user => {
             if (!user) {
-                callback(new Error('user not found'))
+                callback(new NotFoundError('user not found'))
 
                 return
 
@@ -19,9 +21,9 @@ function createPost(userId, image, imageDescription, text, callback) {
 
             Post.create({ author: userId, image, imageDescription, text })
                 .then(() => callback(null))
-                .catch(error => callback(error))
+                .catch(error => callback(new SystemError(error)))
         })
-        .catch(error => callback(error))
+        .catch(error => callback(new SystemError(error)))
 }
 
 module.exports = createPost
