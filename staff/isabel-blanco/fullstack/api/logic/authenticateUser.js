@@ -4,7 +4,7 @@ const { validate } = require('./helpers')
 
 const { User } = require('../data/models')
 
-const { NotFoundError, CredentialsError, SystemError } = require('./errors')
+const { CredentialsError, SystemError } = require('./errors')
 
 function authenticateUser(email, password, callback) {
     validate.email(email, 'email')
@@ -14,7 +14,7 @@ function authenticateUser(email, password, callback) {
     User.findOne({ email, password })
         .then(user => {
             if (!user) {
-                callback(new NotFoundError('user not found'))
+                callback(new CredentialsError('user not found'))
 
                 return
             }

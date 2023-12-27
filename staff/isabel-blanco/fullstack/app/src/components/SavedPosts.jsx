@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 
 import logic from '../logic'
 
+import Posts from './Posts'
+
 export default function SavedPosts(props) {
     console.log('SavedPosts')
 

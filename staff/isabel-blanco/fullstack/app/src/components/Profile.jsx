@@ -1,6 +1,7 @@
 import { Routes, Route, useNavigate } from 'react-router-dom'
 
 import UpdateEmail from './UpdateEmail'
+
 import UpdatePassword from './UpdatePassword'
 
 import Button from '../library/Button'

@@ -1,4 +1,5 @@
-import validate from './validate'
+import { validate } from './helpers'
+import errors, { SystemError } from './errors'
 
 function registerUser(name, email, password) {
     validate.text(name, 'name')
@@ -14,19 +15,23 @@ function registerUser(name, email, password) {
         body: JSON.stringify({ name, email, password })
     }
 
-    fetch('http://localhost:4000/users', req)
+    fetch(`${import.meta.env.VITE_API_URL}/users`, req)
         .then(res => {
             if (!res.ok) {
                 res.json()
-                    .then(body => callback(new Error(body.error)))
-                    .catch(error => callback(error))
+                    .then(body => {
+                        const constructor = errors[body.error]
+
+                        callback(new constructor(body.message))
+                    })
+                    .catch(error => callback(new SystemError(error.message)))
 
                 return
             }
 
             callback(null)
         })
-        .catch(error => callback(error))
+        .catch(error => callback(new SystemError(error.message)))
 }
 
 export default registerUser

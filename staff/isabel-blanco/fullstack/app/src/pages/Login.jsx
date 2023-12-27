@@ -44,7 +44,7 @@ export default function Login(props) {
         <Form onSubmit={handleLoginSubmit}>
             <Field type="email" id="email-field" title="E-mail" required>E-mail</Field>
 
-            <Field type="password" id="password-field" title="Password" required >Password</Field>
+            <Field type="password" id="password-field" title="Password" required>Password</Field>
 
             <Button type="submit">Login</Button>
         </Form>

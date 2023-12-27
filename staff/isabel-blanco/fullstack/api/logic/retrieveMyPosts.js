@@ -36,8 +36,8 @@ function retrieveMyPosts(userId, callback) {
 
                     callback(null, posts)
                 })
-                .catch(error => callback(error))
+                .catch(error => callback(new SystemError(error.message)))
         })
-        .catch(error => callback(error))
+        .catch(error => callback(new SystemError(error.message)))
 }
 module.exports = retrieveMyPosts

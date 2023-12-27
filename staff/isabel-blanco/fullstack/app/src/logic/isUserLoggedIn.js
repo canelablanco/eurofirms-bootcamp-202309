@@ -1,10 +1,9 @@
 import context from "./context"
 
 function isUserLoggedIn() {
-    if (!context.jwt()) {
+    if (!context.jwt) {
         return false
 
-        return false
     }
 
     return true

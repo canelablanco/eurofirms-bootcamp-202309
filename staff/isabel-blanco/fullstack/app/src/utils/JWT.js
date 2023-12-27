@@ -9,7 +9,7 @@ class JWT {
         this.header = header
 
         const payloadJSON = atob(payload64)
-        const payload = JSON.parse(payload64)
+        const payload = JSON.parse(payloadJSON)
         this.payload = payload
 
         this.signature = signature

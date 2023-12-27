@@ -1,12 +1,15 @@
-import validate from './validate'
+import { validate } from './helpers'
+
 import context from './context'
 
-function createNewPost(userId, image, imageDescription, callback) {
+import errors, { SystemError } from './errors'
+
+function createNewPost(image, imageDescription, callback) {
     validate.text(image, 'image url')
     validate.text(imageDescription, 'image description')
     validate.text(text, 'text')
-    validate.funktion(callback, 'callback')
-    validateText.jwt(context.jwt)
+    validate.function(callback, 'callback')
+    validate.jwt(context.jwt)
 
     const req = {
         method: 'POST',
@@ -17,19 +20,23 @@ function createNewPost(userId, image, imageDescription, callback) {
         body: JSON.stringify({ image, imageDescription, text })
     }
 
-    fetch('http://localhost:4000/posts', req)
+    fetch(`${import.meta.env.VITE_API_URL}/posts`, req)
         .then(res => {
             if (!res.ok) {
                 res.json()
-                    .then(body => callback(new Error(body.error)))
-                    .catch(error => callback(error))
+                    .then(body => {
+                        const constructor = errors[body.error]
+
+                        callback(new constructor(body.message))
+                    })
+                    .catch(error => callback(new SystemError(error.message)))
 
                 return
             }
 
             callback(null)
         })
-        .catch(error => callback(error))
+        .catch(error => callback(new SystemError(error.message)))
 }
 
 export default createNewPost

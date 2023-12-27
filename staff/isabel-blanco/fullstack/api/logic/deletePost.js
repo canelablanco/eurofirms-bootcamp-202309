@@ -18,12 +18,12 @@ function deletePost(userId, postId, callback) {
             Post.findById(postId)
                 .then(post => {
                     if (!post) {
-                        callback(new Error('post not found'))
+                        callback(new NotFoundError('post not found'))
 
                         return
                     }
 
-                    if (post.author.toSttring() !== userId) {
+                    if (post.author.toString() !== userId) {
                         callback(new ClearanceError('post does not belong to user'))
 
                         return

@@ -88,22 +88,21 @@ export default function Home(props) {
             <Button onClick={handleLogoutClick}>Logout</Button>
         </header>
 
-        <Routes>
-            <Routes>
-                <NewPost path="/new-post" element={<>
-                    <NewPost onNewPostSubmit={handleNewPostSubmit} onNewPostCancelClick={handleNewPostCancelClick} onError={props.onError} />
-                    <AllPosts timestamp={timestamp} onError={props.onError} />
-                </>} />
+        <Route>
+            <Route path="/new-post" element={<>
 
-                <Route path="/" element={<AllPosts timestamp={timestamp} onError={props.onError} />} />
+                <NewPost onNewPostSubmit={handleNewPostSubmit} onNewPostCancelClick={handleNewPostCancelClick} onError={props.onError} />
+                <AllPosts timestamp={timestamp} onError={props.onError} />
+            </>} />
 
-                <Route path="/saved" element={<SavedPosts onError={props.onError} />} />
+            <Route path="/" element={<AllPosts timestamp={timestamp} onError={props.onError} />} />
 
-                <Route path="/my-posts" element={<MyPosts onError={props.onError} />} />
+            <Route path="/saved" element={<SavedPosts onError={props.onError} />} />
 
-                <Route path="/profile/*" element={<Profile />} />
-            </Routes>
-        </Routes>
+            <Route path="/my-posts" element={<MyPosts onError={props.onError} />} />
+
+            <Route path="/profile/*" element={<Profile />} />
+        </Route>
 
         <div className="h-[2rem]"></div>
 

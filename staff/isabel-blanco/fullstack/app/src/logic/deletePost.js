@@ -1,9 +1,10 @@
-import validate from './validate'
+import { validate } from './helpers'
 import context from './context'
+import errors, { SystemError } from './errors'
 
-function deletePost(userId, callback) {
+function deletePost(postId, callback) {
     validate.text(postId, 'post id')
-    validate.funktion(callback, 'callback')
+    validate.function(callback, 'callback')
     validate.jwt(context.jwt)
 
     const req = {
@@ -13,19 +14,23 @@ function deletePost(userId, callback) {
         }
     }
 
-    fetch(`http://localhost:4000/posts/${postId}`, req)
+    fetch(`${import.meta.env.VITE_API_URL}/posts/${postId}`, req)
         .then(res => {
             if (!res.ok) {
                 res.json()
-                    .then(body => callback())
-                    .catch(error => callback(error))
+                    .then(body => {
+                        const constructor = errors[body.error]
+
+                        callback(new constructor(body.message))
+                    })
+                    .catch(error => callback(new SystemError(error.message)))
 
                 return
             }
 
             callback(null)
         })
-        .catch(error => callback(error))
+        .catch(error => callback(new SystemError(error.message)))
 
 }
 

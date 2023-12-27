@@ -1,3 +1,5 @@
+const { isValidObjectId } = require("mongoose")
+
 const validate = {
     text(text, explain) {
         if (typeof text !== 'string') throw new TypeError(eplain + ' is not a string')
@@ -29,6 +31,10 @@ const validate = {
 
     function(func, explain) {
         if (typeof func !== 'function') throw new TypeError(explain + ' is not a function')
+    },
+
+    id(id, explain) {
+        if (!isValidObjectId(id)) throw new TypeError(explain + ' is not a valid id')
     }
 }
 
