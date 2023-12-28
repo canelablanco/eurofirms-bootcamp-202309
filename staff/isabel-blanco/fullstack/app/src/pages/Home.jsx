@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+
 import { Routes, Route, useNavigate } from 'react-router-dom'
 
 import logic from '../logic'
@@ -88,7 +89,7 @@ export default function Home(props) {
             <Button onClick={handleLogoutClick}>Logout</Button>
         </header>
 
-        <Route>
+        <Routes>
             <Route path="/new-post" element={<>
 
                 <NewPost onNewPostSubmit={handleNewPostSubmit} onNewPostCancelClick={handleNewPostCancelClick} onError={props.onError} />
@@ -102,7 +103,7 @@ export default function Home(props) {
             <Route path="/my-posts" element={<MyPosts onError={props.onError} />} />
 
             <Route path="/profile/*" element={<Profile />} />
-        </Route>
+        </Routes>
 
         <div className="h-[2rem]"></div>
 
