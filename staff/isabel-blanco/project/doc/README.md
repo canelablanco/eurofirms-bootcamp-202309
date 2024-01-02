@@ -11,8 +11,6 @@
 
 ### Use Cases
 
-
-
 ## Technical Description
 
 ### Data Model
