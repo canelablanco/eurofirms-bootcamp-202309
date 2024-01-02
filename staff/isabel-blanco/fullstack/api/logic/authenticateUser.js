@@ -6,25 +6,25 @@ const { User } = require('../data/models')
 
 const { CredentialsError, SystemError } = require('./errors')
 
-function authenticateUser(email, password, callback) {
+function authenticateUser(email, password) {
     validate.email(email, 'email')
     validate.password(password, 'password')
-    validate.function(callback, 'callback')
 
-    User.findOne({ email, password })
+    return User.findOne({ email, password })
+        .catch(error => { throw new SystemError(error.message) })
         .then(user => {
-            if (!user) {
+            if (!user)
                 callback(new CredentialsError('user not found'))
 
-                return
-            }
+            return bcrypt.compare(password, user.password)
+                .catch(error => { throw new SystemError(error.message) })
+                .then(match => {
+                    if (match)
+                        return user.id
 
-            bcrypt.compare(password, user.password)
-                .then(math => math ? callback(null, user.id) : callback(new CredentialsError('wrong credentials')))
-                .catch(error => callback(new SystemError(error.message)))
-
+                    throw new CredentialsError('wrong password')
+                })
         })
-        .catch(error => callback(new SystemError(error.message)))
 }
 
 module.exports = authenticateUser

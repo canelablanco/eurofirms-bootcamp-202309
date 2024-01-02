@@ -10,7 +10,7 @@ module.exports = (req, res) => {
 
         const { sub: userId } = jwt.verify(token, process.env.JWT_SECRET)
 
-        logic.retrieveMyPosts(user, (error, posts) => {
+        logic.retrieveMyPosts(userId, (error, posts) => {
             if (error) {
                 let status = 500
 
