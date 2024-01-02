@@ -9,7 +9,7 @@ This application is used to create diets for patients with PCOS
 
 ## Functional Description
 
-This application allows you to create your own diets, save your favorites, and modify your data to create new diets
+This application allows you to create your own diets, save your favorites, and modify your data to create new diets.
 
 ### Use Cases
 - Update profile (height, weight, habits, etc...)
