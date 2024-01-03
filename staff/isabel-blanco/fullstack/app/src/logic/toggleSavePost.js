@@ -4,7 +4,7 @@ import context from './context'
 
 import errors, { SystemError } from './errors'
 
-function toggleSavePost(userId, callback) {
+function toggleSavePost(postId, callback) {
     validate.text(postId, 'post id')
     validate.function(callback, 'callback')
     validate.jwt(context.jwt)

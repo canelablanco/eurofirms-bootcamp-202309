@@ -28,7 +28,7 @@ export default function Post(props) {
 
         if (confirmed)
             try {
-                deletePost(post.id, error => {
+                logic.deletePost(post.id, error => {
                     if (error) {
                         props.onError(error)
 
@@ -44,7 +44,7 @@ export default function Post(props) {
 
     function handleSaveClick() {
         try {
-            toggleSavePost(post.id, error => {
+            logic.toggleSavePost(post.id, error => {
                 if (error) {
                     props.onError(error)
 
@@ -71,7 +71,7 @@ export default function Post(props) {
         <div className="flex">
             <Button onClick={handleLikeClick} title={post.liked ? 'Unlike' : 'Like'} aria-label={post.liked ? 'Unlike' : 'Like'}>{(post.liked ? '🐈' : '🐈‍⬛') + ' ' + post.likes.length + ' likes'}</Button>
 
-            <Button onClick={handleSaveClick} title={post.saved ? 'Unsave' : 'sSave'} aria-label={post.saved ? 'Unsave' : 'Save'}>{(post.saved ? '✨' : '🔮')}</Button>
+            <Button onClick={handleSaveClick} title={post.saved ? 'Unsave' : 'Save'} aria-label={post.saved ? 'Unsave' : 'Save'}>{(post.saved ? '✨' : '🔮')}</Button>
 
             {post.author.id === getLoggedInUserId() ? <Button title="Delete" aria-label="Delete" onClick={handleDeleteClick}>🗑️</Button> : null}
         </div>

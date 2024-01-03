@@ -15,11 +15,11 @@ const validate = {
     },
 
     password(password) {
-        validateText(password, 'password')
-        if (password.length < 8) throw new RangeError('password length is lower than 8')
+        this.text(password, 'password')
+        if (password.length < 3) throw new RangeError('password length is lower than 3')
     },
     url(url, explain) {
-        validateText(url, explain)
+        this.text(url, explain)
         if (!url.startsWith('http')) throw new ContentError(explain + ' is not valid')
     },
 

@@ -38,7 +38,7 @@ export default function Home(props) {
     }
 
     function handleNewPostClick() {
-        navigate('new-post')
+        navigate('/new-post')
     }
 
     function handleNewPostCancelClick() {
@@ -53,7 +53,7 @@ export default function Home(props) {
     function handleSavedClick(event) {
         event.preventDefault()
 
-        navigate('saved')
+        navigate('/saved')
     }
 
     function handleHomeClick(event) {
@@ -74,7 +74,7 @@ export default function Home(props) {
         navigate('/profile')
     }
 
-    return <Container>
+    return <Container align="center">
         <header className="flex justify-between items-center md:min-w-[500px] lg:min-w-[768px]" aria-label="Header">
             <Link className="hidden lg:block" onClick={handleHomeClick}><Logo /></Link>
 

@@ -6,7 +6,7 @@ import errors, { SystemError } from './errors'
 function loginUser(email, password, callback) {
     validate.emailmail(email)
     validate.password(password)
-    validate.funktion(callback, 'callback')
+    validate.function(callback, 'callback')
 
     const req = {
         method: 'POST',
@@ -16,7 +16,7 @@ function loginUser(email, password, callback) {
         body: JSON.stringify({ email, password })
     }
 
-    fetch('http://localhost:4000/users/auth', req)
+    fetch(`${import.meta.env.VITE_API_URL}/users/auth`, req)
         .then(res => {
             if (!res.ok) {
                 res.json()

@@ -5,7 +5,7 @@ import context from './context'
 import errors, { SystemError } from './errors'
 
 function retrievePosts(callback) {
-    validateFunction(callback, 'callback')
+    validate.function(callback, 'callback')
     validate.jwt(connect.jwt)
 
     const req = {
