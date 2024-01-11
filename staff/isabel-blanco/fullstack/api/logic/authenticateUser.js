@@ -10,11 +10,11 @@ function authenticateUser(email, password) {
     validate.email(email, 'email')
     validate.password(password, 'password')
 
-    return User.findOne({ email, password })
+    return User.findOne({ email })
         .catch(error => { throw new SystemError(error.message) })
         .then(user => {
             if (!user)
-                callback(new CredentialsError('user not found'))
+                throw new CredentialsError('wrong email')
 
             return bcrypt.compare(password, user.password)
                 .catch(error => { throw new SystemError(error.message) })

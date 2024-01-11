@@ -27,6 +27,6 @@ module.exports = (req, res) => {
         if (error instanceof TypeError || error instanceof ContentError || error instanceof RangeError)
             status = 406
 
-        res.status(status).json({ erro: error.constructor.name, messsage: error.messsage })
+        res.status(status).json({ error: error.constructor.name, messsage: error.messsage })
     }
 }

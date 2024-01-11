@@ -1,16 +1,17 @@
 const { isValidObjectId } = require("mongoose")
+const { ContentError } = require("../errors")
 
 const validate = {
     text(text, explain) {
-        if (typeof text !== 'string') throw new TypeError(eplain + ' is not a string')
-        if (text.trim().lenght === 0) throw new Error(explain + ' is empty')
+        if (typeof text !== 'string') throw new TypeError(explain + ' is not a string')
+        if (text.trim().length === 0) throw new ContentError(explain + ' is empty')
     },
 
     email(email, explain) {
         this.text(email, explain)
 
-        if (!email.includes('@')) throw new Error(explain + ' is not valid')
-        if (!email.includes('.')) throw new Error(explain + ' is not valid')
+        if (!email.includes('@')) throw new ContentError(explain + ' is not valid')
+        if (!email.includes('.')) throw new ContentError(explain + ' is not valid')
     },
 
     password(password, explain) {
@@ -22,7 +23,7 @@ const validate = {
     url(url, explain) {
         this.text(url, explain)
 
-        if (!url.startsWith('http')) throw new Error(explain + ' is not valid')
+        if (!url.startsWith('http')) throw new ContentError(explain + ' is not valid')
     },
 
     number(number, explain) {
