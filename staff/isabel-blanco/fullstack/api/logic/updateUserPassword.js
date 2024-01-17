@@ -7,7 +7,7 @@ const { User } = require("../data/models")
 const { ContentError, CredentialsError, NotFoundError, SystemError } = require('./errors')
 
 function updateUserPassword(userId, password, newPassword, repeatNewPassword, callback) {
-    validate.text(userId, "user id")
+    validate.id(userId, "user id")
     validate.password(password, "password")
     validate.password(newPassword, "new password")
     validate.password(repeatNewPassword, "repeat new password")
@@ -42,6 +42,7 @@ function updateUserPassword(userId, password, newPassword, repeatNewPassword, ca
                         })
                         .catch(error => callback(new SystemError(error.message)))
                 })
+                .catch(error => callback(new SystemError(error.message)))
         })
         .catch(error => callback(new SystemError(error.message)))
 }

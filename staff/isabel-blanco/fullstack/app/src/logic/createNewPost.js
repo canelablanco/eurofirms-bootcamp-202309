@@ -4,8 +4,8 @@ import context from './context'
 
 import errors, { SystemError } from './errors'
 
-function createNewPost(image, imageDescription, callback) {
-    validate.text(image, 'image url')
+function createNewPost(image, imageDescription, text, callback) {
+    validate.url(image, 'image url')
     validate.text(imageDescription, 'image description')
     validate.text(text, 'text')
     validate.function(callback, 'callback')

@@ -5,7 +5,7 @@ const { Types: { ObjectId } } = mongoose
 
 mongoose.connect('mongodb://127.0.0.1:27017/test').then(() => {
 
-    const ash = new User({ name: 'Ash Ketchum', email: 'ash@ketchum.com', password: '123' })
+    const ash = new User({ name: 'Ash Ketchum', email: 'ash@ketchum.com', password: '123123123' })
     ash.save().then(() => console.log('ash saved'))
 
     const post = new Post({

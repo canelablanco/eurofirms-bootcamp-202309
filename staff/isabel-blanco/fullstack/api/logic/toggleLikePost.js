@@ -5,8 +5,8 @@ const { validate } = require('./helpers')
 const { NotFoundError, SystemError } = require('./errors')
 
 function toggleLikePost(userId, postId, callback) {
-    validate.text(userId, 'user id')
-    validate.text(postId, 'post id')
+    validate.id(userId, 'user id')
+    validate.id(postId, 'post id')
     validate.function(callback, 'callback')
 
     User.findById(userId)

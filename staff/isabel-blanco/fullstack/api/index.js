@@ -10,7 +10,7 @@ const {
     authenticateUserHandler,
     retrieveUserHandler,
     createPostHandler,
-    retrievePostsHandler,
+    retrievePostHandler,
     retrieveSavedPostsHandler,
     retrieveMyPostsHandler,
     toggleLikePostHandler,
@@ -45,7 +45,7 @@ mongoose.connect(process.env.MONGODB_URL)
 
         api.post('/posts', jsonBodyParser, createPostHandler)
 
-        api.get('/posts', retrievePostsHandler)
+        api.get('/post', retrievePostHandler)
 
         api.get('/posts/saved', retrieveSavedPostsHandler)
 

@@ -4,7 +4,7 @@ const { ContentError } = require("../errors")
 const validate = {
     text(text, explain) {
         if (typeof text !== 'string') throw new TypeError(explain + ' is not a string')
-        if (text.trim().length === 0) throw new ContentError(explain + ' is empty')
+        if (text.trim().length === 0) throw new ContentError(explain + ' is empty string')
     },
 
     email(email, explain) {
@@ -17,13 +17,13 @@ const validate = {
     password(password, explain) {
         this.text(password, explain)
 
-        if (password.lenght < 3) throw new RangeError(explain + ' length is lower than 3')
+        if (password.length < 8) throw new RangeError(explain + ' length is lower than 8')
     },
 
     url(url, explain) {
         this.text(url, explain)
 
-        if (!url.startsWith('http')) throw new ContentError(explain + ' is not valid')
+        if (!url.startsWith('http')) throw new ContentError(explain + ' is not valid url')
     },
 
     number(number, explain) {

@@ -1,10 +1,12 @@
 const { validate } = require('./helpers')
+
 const { User, Post } = require('../data/models')
+
 const { NotFoundError, SystemError } = require('./errors')
 
 function toggleSavePost(userId, postId, callback) {
-    validate.text(userId, 'user id')
-    validate.text(postId, 'postId')
+    validate.id(userId, 'user id')
+    validate.id(postId, 'postId')
     validate.function(callback, 'callback')
 
     User.findById(userId)
@@ -23,7 +25,6 @@ function toggleSavePost(userId, postId, callback) {
                         return
                     }
 
-
                     const index = user.saved.findIndex(postObjectId => postObjectId.toString() === postId)
 
                     if (index < 0)
@@ -35,6 +36,7 @@ function toggleSavePost(userId, postId, callback) {
                         .then(() => callback(null))
                         .catch(error => callback(new SystemError(error.message)))
                 })
+                .catch(error => callback(new SystemError(error.message)))
         })
         .catch(error => callback(new SystemError(error.message)))
 }

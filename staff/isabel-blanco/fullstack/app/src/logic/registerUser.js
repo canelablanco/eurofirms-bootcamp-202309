@@ -1,7 +1,7 @@
 import { validate } from './helpers'
 import errors, { SystemError } from './errors'
 
-function registerUser(name, email, password) {
+function registerUser(name, email, password, callback) {
     validate.text(name, 'name')
     validate.email(email)
     validate.password(password)

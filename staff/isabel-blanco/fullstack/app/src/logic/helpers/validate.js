@@ -16,7 +16,7 @@ const validate = {
 
     password(password) {
         this.text(password, 'password')
-        if (password.length < 3) throw new RangeError('password length is lower than 3')
+        if (password.length < 8) throw new RangeError('password length is lower than 8')
     },
     url(url, explain) {
         this.text(url, explain)

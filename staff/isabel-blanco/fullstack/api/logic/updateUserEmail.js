@@ -1,39 +1,49 @@
-const { validateText, validateEmail, validatePassword, validateFunction } = require("./helpers/validators")
+const { validate } = require("./helpers")
 
 const { User } = require("../data/models")
+const { NotFoundError } = require("./errors")
 
-function updateUserEmail(userId, newEmail, repeatNewEmail, password, callback) {
-    validateText(userId, 'user id')
-    validateEmail(newEmail, 'newEmail')
-    validateEmail(repeatNewEmail, 'repeatNewEmail')
-    validatePassword(password, 'password')
-    validateFunction(callback, 'callback')
+function updateUserEmail(userId, password, email, newEmail, repeatNewEmail, callback) {
+    validate.id(userId, "user id")
+    validate.password(password, "password")
+    validate.email(email, "email")
+    validate.email(newEmail, "new email")
+    validate.email(repeatNewEmail, "repeat new email")
+    validate.function(callback, "callback")
 
-    if (newEmail !== repeatNewEmail) throw new error("your email do not match")
+    if (newEmail !== repeatNewEmail) throw new ContentError("new email does not match repeat new email")
 
-    User.findById(userId).then((user) => {
-        if (!user) {
-            callback(new Error("user not found"))
+    User.findById(userId)
+        .then((user) => {
+            if (!user) {
+                callback(new NotFoundError("user not found"))
 
-            return
-        }
+                return
+            }
 
-        if (user.password !== password) {
-            callback(new Error('wrong credentials'))
+            if (user.password !== password) {
+                callback(new Error('wrong credentials'))
 
-            return
-        }
+                return
+            }
 
-        user.email = newEmail
+            if (user.email !== email) {
+                callback(new CredentialsError("wrong credentials"))
 
-        user.save()
-            .then(() => {
-                callback(null)
-            })
-            .catch((error) => {
-                callback(error)
-            })
-    })
+                return
+            }
+
+            user.email = newEmail
+
+            user.save()
+                .then(() => {
+                    callback(null)
+                })
+                .catch((error) => {
+                    callback(error)
+                })
+        })
+        .catch((error) => callback(new SystemError(error.message)))
 }
 
 module.exports = updateUserEmail

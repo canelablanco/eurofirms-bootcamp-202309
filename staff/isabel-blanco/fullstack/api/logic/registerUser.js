@@ -15,11 +15,9 @@ function registerUser(name, email, password) {
         .then(hash => User.create({ name, email, password: hash }))
         .then(() => { })
         .catch(error => {
-            if (error.code === 11000) {
-                callback(new DuplicityError('user already exists'))
+            if (error.code === 11000) throw new DuplicityError("user already exists")
 
-                throw new SystemError(error.message)
-            }
+            throw new SystemError(error.message)
 
         })
 

@@ -3,7 +3,7 @@ import React from "react"
 export default function Logo() {
     console.log('Logo')
 
-    //const horseAudioRef = React.useRef()
+    const horseAudioRef = React.useRef()
     const tweetAudioRef = React.useRef()
 
     function handleMouseOverLogo() {

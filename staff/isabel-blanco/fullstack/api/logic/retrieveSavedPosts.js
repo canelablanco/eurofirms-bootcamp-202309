@@ -5,7 +5,7 @@ const { User, Post } = require('../data/models')
 const { NotFoundError, SystemError } = require('./errors')
 
 function retrieveSavedPosts(userId, callback) {
-    validate.text(userId, 'user id')
+    validate.id(userId, 'user id')
     validate.function(callback, 'callback')
 
     User.findById(userId)
@@ -16,9 +16,7 @@ function retrieveSavedPosts(userId, callback) {
                 return
             }
 
-            user.saved
-
-            Post.find({ _id: { $in: user.saved } }).select('-__v').populate('author', 'name').lean()
+            Post.find().select('-__v').populate('author', 'name').lean()
                 .then(posts => {
                     posts.forEach(post => {
                         post.id = post._id.toString()

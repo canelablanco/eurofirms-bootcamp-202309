@@ -44,7 +44,7 @@ const post = new Schema({
 
     text: {
         type: String,
-        ref: true
+        required: true
     },
 
     likes: {

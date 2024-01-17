@@ -3,7 +3,7 @@ const req = {
     headers: {
         'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ name: 'Queso tierno', email: 'queso@tierno.com', password: '123' })
+    body: JSON.stringify({ name: 'Queso tierno', email: 'queso@tierno.com', password: '123123123' })
 }
 
 fetch('http://localhost:4000/users', req)

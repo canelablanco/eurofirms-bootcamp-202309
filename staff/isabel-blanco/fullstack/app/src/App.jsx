@@ -33,7 +33,7 @@ export default function App() {
     setFeedback(null)
   }
 
-  function handleError() {
+  function handleError(error) {
     if (error instanceof JWTError) {
       logic.logoutUser()
 

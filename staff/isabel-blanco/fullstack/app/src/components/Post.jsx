@@ -73,7 +73,7 @@ export default function Post(props) {
 
             <Button onClick={handleSaveClick} title={post.saved ? 'Unsave' : 'Save'} aria-label={post.saved ? 'Unsave' : 'Save'}>{(post.saved ? '✨' : '🔮')}</Button>
 
-            {post.author.id === getLoggedInUserId() ? <Button title="Delete" aria-label="Delete" onClick={handleDeleteClick}>🗑️</Button> : null}
+            {post.author.id === logic.getLoggedInUserId() ? <Button title="Delete" aria-label="Delete" onClick={handleDeleteClick}>🗑️</Button> : null}
         </div>
     </article>
 }

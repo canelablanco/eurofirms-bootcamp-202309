@@ -45,7 +45,7 @@ export default function Home(props) {
         navigate('/')
     }
 
-    function handleNewPostSubmit(event) {
+    function handleNewPostSubmit() {
         navigate('/')
         setTimestamp(Date.now())
     }
